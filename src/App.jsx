@@ -36,229 +36,22 @@ const imageAssets = Object.entries(imageFiles).reduce((map, [path, src]) => {
   return map;
 }, {});
 
-// MAPEO Y DISTRIBUCIÓN DIRIGIDA DE TU GALERÍA REAL DE CAPTURAS
+// ESTRUCTURACIÓN Y ENLAZADO EXACTO DE TU GALERÍA REAL DE CAPTURAS
 const MODULES = {
-  inicio: { title: "01. Portada", badge: "TOPOLOGÍA", color: "blue", gallery: [{ file: "Terminos  y condiciones.png", desc: "Aprovisionamiento de hardware y entorno de virtualización en VirtualBox." }] },
-  licencias: { title: "02. Licencias", badge: "SOFTWARE LIBRE", color: "purple", gallery: [{ file: "02_licencias.png", desc: "Hardening conceptual sobre directivas Copyleft y GNU/GPL." }, { file: "licenses.png", desc: "Validación de cumplimiento de términos legales comerciales." }] },
-  instalacion: { title: "03. Red e IP", badge: "CONFIG CLI", color: "emerald", gallery: [{ file: "Host name.png", desc: "Comando administrativo hostnamectl asignando el nodo srv-wiki." }, { file: "03_ip_a.png", desc: "Auditoría de direccionamiento IP sobre la interfaz NAT." }, { file: "apt_update.png", desc: "Sincronización core de llaves de seguridad y repositorios APT." }, { file: "sudo_apt_update_upgrade.png", desc: "Mantención global del árbol de paquetes del sistema." }] },
-  permisos: { title: "04. Permisos", badge: "SEGURIDAD", color: "amber", gallery: [{ file: "04_permisos.png", desc: "Manejo de masks octales chmod y reasignación chown." }, { file: "Ls_completo.png", desc: "Inspección de directivas con formato extendido ls -l." }, { file: "ls-l.png", desc: "Validación en bloque de bits de control local." }] },
-  paquetes: { title: "05. APT Pack", badge: "FACTIBILIDAD", color: "indigo", gallery: [{ file: "apt install.png", desc: "Despliegue e instalación limpia de htop por consola." }, { file: "apt_show_htop.png", desc: "Lectura y análisis de dependencias de htop mediante APT." }, { file: "05_apt.png", desc: "Consola en tiempo real de htop analizando carga y subprocesos." }] },
-  nginx: { title: "06. Nginx Web", badge: "HTTP GLOBAL", color: "cyan", gallery: [{ file: "06_sitio_en_linux.png", desc: "Validación del portal compilado y servido en el puerto 8080." }, { file: "install_nginx.png", desc: "Descarga e instalación del motor web nativo." }, { file: "install_nginx_status.png", desc: "Validación del estado active (running) del daemon web." }, { file: "Openssh_80tcp.png", desc: "Hardening de puertos HTTP mediante cortafuegos UFW." }] },
-  bitacora: { title: "07. Bitácora", badge: "PROMPTS IA", color: "rose", gallery: [] }
+  inicio: { title: "01. Portada", badge: "SYS-INIT", icon: "🐧", color: "blue", gallery: [{ file: "Terminos  y condiciones.png", desc: "Aprovisionamiento de hardware y entorno de virtualización en VirtualBox." }] },
+  licencias: { title: "02. Licencias", badge: "LEGAL", icon: "⚖️", color: "purple", gallery: [{ file: "02_licencias.png", desc: "Hardening conceptual sobre directivas Copyleft y GNU/GPL." }, { file: "licenses.png", desc: "Validación de cumplimiento de términos legales comerciales." }] },
+  instalacion: { title: "03. Red e IP", badge: "NET-CONF", icon: "🖧", color: "emerald", gallery: [{ file: "Host name.png", desc: "Comando administrativo hostnamectl asignando el nodo srv-wiki." }, { file: "03_ip_a.png", desc: "Auditoría de direccionamiento IP sobre la interfaz NAT." }, { file: "apt_update.png", desc: "Sincronización core de llaves de seguridad y repositorios APT." }, { file: "sudo_apt_update_upgrade.png", desc: "Mantención global del árbol de paquetes del sistema." }] },
+  permisos: { title: "04. Permisos", badge: "SECURITY", icon: "🔒", color: "amber", gallery: [{ file: "04_permisos.png", desc: "Manejo de masks octales chmod y reasignación chown." }, { file: "Ls_completo.png", desc: "Inspección de directivas con formato extendido ls -l." }, { file: "ls-l.png", desc: "Validación en bloque de bits de control local." }] },
+  paquetes: { title: "05. APT Pack", badge: "PKG-MGMT", icon: "📦", color: "indigo", gallery: [{ file: "apt install.png", desc: "Despliegue e instalación limpia de htop por consola." }, { file: "apt_show_htop.png", desc: "Lectura y análisis de dependencias de htop mediante APT." }, { file: "05_apt.png", desc: "Consola en tiempo real de htop analizando carga y subprocesos." }] },
+  nginx: { title: "06. Nginx Web", badge: "SERVER-HTTP", icon: "🌐", color: "cyan", gallery: [{ file: "06_sitio_en_linux.png", desc: "Validación del portal compilado y servido en el puerto 8080." }, { file: "install_nginx.png", desc: "Descarga e instalación del motor web nativo." }, { file: "install_nginx_status.png", desc: "Validación del estado active (running) del daemon web." }, { file: "Openssh_80tcp.png", desc: "Hardening de puertos HTTP mediante cortafuegos UFW." }] },
+  bitacora: { title: "07. Bitácora", badge: "AI-PROMPT", icon: "🤖", color: "rose", gallery: [] }
 };
 
-// Renderizador Didáctico de Celdas de Tabla con Barras de Progreso e insignias
-function renderTableCell(text, colIdx) {
-  const cleaned = text.replaceAll("**", "").replaceAll("`", "").trim();
-  
-  // Columna Factibilidad: Insignias de Colores Vivos
-  if (colIdx === 4) {
-    if (cleaned.includes("Alta (Elegido)")) {
-      return <span className="table-badge-status status-success">Alta (Elegido)</span>;
-    }
-    if (cleaned.includes("Alta pero limitado")) {
-      return <span className="table-badge-status status-warning">Alta pero limitado</span>;
-    }
-    return <span className="table-badge-status status-info">{cleaned}</span>;
-  }
-
-  // Columna Peso: Barra de Progreso Gráfica
-  if (colIdx === 1) {
-    const isHtop = cleaned.includes("~150KB");
-    return (
-      <div className="table-progress-container">
-        <span className="table-progress-text">{cleaned}</span>
-        <div className="table-progress-bar-bg">
-          <div className={`table-progress-bar-fill ${isHtop ? "bg-emerald" : "bg-slate"}`} style={{ width: isHtop ? "35%" : "12%" }}></div>
-        </div>
-      </div>
-    );
-  }
-
-  // Columna Dependencias y Soporte: Insignias de Texto
-  if (colIdx === 2 || colIdx === 3) {
-    const isMain = cleaned.includes("Main") || cleaned.includes("Ninguna");
-    return <span className={`table-text-tag ${isMain ? "tag-accent" : "tag-muted"}`}>{cleaned}</span>;
-  }
-
-  return <strong>{cleaned}</strong>;
+function getCleanText(markdown) {
+  return markdown.split("\n")
+    .map(line => line.trim())
+    .filter(line => line && !line.startsWith("#") && !line.startsWith("![") && !line.startsWith("```"));
 }
-
-function renderMarkdown(markdown, assetMap, docId) {
-  const blocks = [];
-  const lines = markdown.split(/\r?\n/);
-  let paragraphLines = [];
-  let listItems = [];
-  let inCodeBlock = false;
-  let codeLines = [];
-  let tableRows = [];
-
-  const flushParagraph = (lineId) => {
-    if (paragraphLines.length) {
-      const contentText = paragraphLines.join(" ").trim();
-      blocks.push(
-        <p key={`p-${docId}-${lineId}`} className="article-paragraph">
-          {renderInline(contentText, assetMap, `${docId}-${lineId}`)}
-        </p>,
-      );
-      paragraphLines = [];
-    }
-  };
-
-  const flushList = (lineId) => {
-    if (listItems.length) {
-      blocks.push(
-        <ul key={`ul-${docId}-${lineId}`} className="article-list">
-          {listItems}
-        </ul>,
-      );
-      listItems = [];
-    }
-  };
-
-  const flushTable = (lineId) => {
-    if (tableRows.length) {
-      blocks.push(
-        <div key={`table-wrapper-${docId}-${lineId}`} className="didactic-table-container">
-          <table className="didactic-table">
-            <thead>
-              <tr>
-                {tableRows[0].map((cell, idx) => (
-                  <th key={`th-${idx}`}>{cell.replaceAll("**", "").trim()}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {tableRows.slice(1).map((row, rowIdx) => (
-                <tr key={`tr-${rowIdx}`}>
-                  {row.map((cell, colIdx) => (
-                    <td key={`td-${colIdx}`}>{renderTableCell(cell, colIdx)}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      );
-      tableRows = [];
-    }
-  };
-
-  lines.forEach((line, index) => {
-    const trimmed = line.trim();
-
-    // Procesamiento de Bloques de Código de Consola
-    if (trimmed.startsWith("```")) {
-      if (inCodeBlock) {
-        inCodeBlock = false;
-        blocks.push(
-          <pre key={`codeblock-${docId}-${index}`}>
-            <code>{codeLines.join("\n")}</code>
-          </pre>
-        );
-        codeLines = [];
-      } else {
-        flushParagraph(index);
-        flushList(index);
-        inCodeBlock = true;
-      }
-      return;
-    }
-
-    if (inCodeBlock) {
-      codeLines.push(line);
-      return;
-    }
-
-    // Procesamiento y Estructuración de Tablas Markdown Didácticas
-    if (trimmed.startsWith("|")) {
-      flushParagraph(index);
-      flushList(index);
-      
-      // Ignorar líneas divisorias del Markdown como |--|--|
-      if (!trimmed.includes("---")) {
-        const cells = trimmed.split("|").map(c => c.trim()).filter((_, i, arr) => i > 0 && i < arr.length - 1);
-        tableRows.push(cells);
-      }
-      return;
-    } else {
-      flushTable(index);
-    }
-
-    if (!trimmed) {
-      flushParagraph(index);
-      flushList(index);
-      return;
-    }
-
-    if (trimmed.startsWith("#")) {
-      flushParagraph(index);
-      flushList(index);
-      
-      let level = 1;
-      if (trimmed.startsWith("### ")) level = 3;
-      else if (trimmed.startsWith("## ")) level = 2;
-      
-      const content = trimmed.replace(/^#+\s+/, "");
-      const headingTag = `h${Math.min(level + 1, 3)}`;
-      
-      blocks.push(
-        createElement(
-          headingTag,
-          { key: `h-${docId}-${index}` },
-          renderInline(content, assetMap, `${docId}-${index}`),
-        ),
-      );
-      return;
-    }
-
-    if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
-      flushParagraph(index);
-      const content = trimmed.slice(2);
-      listItems.push(
-        <li key={`li-${docId}-${index}`}>
-          {renderInline(content, assetMap, `${docId}-${index}`)}
-        </li>,
-      );
-      return;
-    }
-
-    paragraphLines.push(trimmed);
-  });
-
-  flushParagraph(lines.length);
-  flushList(lines.length);
-  flushTable(lines.length);
-
-  return blocks;
-}
-
-function renderInline(text, assetMap, textKey) {
-  if (!text) return [];
-  const codeParts = text.split("`");
-  return codeParts.flatMap((codeChunk, codeIdx) => {
-    if (codeIdx % 2 !== 0) {
-      return [<code key={`code-${textKey}-${codeIdx}`}>{codeChunk}</code>];
-    }
-    const boldParts = codeChunk.split("**");
-    return boldParts.flatMap((boldChunk, boldIdx) => {
-      if (boldIdx % 2 !== 0) {
-        return [<strong key={`bold-${textKey}-${codeIdx}-${boldIdx}`}>{boldChunk}</strong>];
-      }
-      return [boldChunk];
-    });
-  });
-}
-
-const docs = Object.entries(markdownFiles)
-  .map(([key, content]) => {
-    return {
-      id: key,
-      title: getTitle(content),
-      summary: getSummary(content),
-      content,
-    };
-  });
 
 export default function App() {
   const [activeTab, setActiveKey] = useState("inicio");
@@ -266,62 +59,104 @@ export default function App() {
   const [zoomImg, setZoomImg] = useState(null);
 
   const currentModule = MODULES[activeTab];
-  const selectedDoc = docs.find((doc) => doc.id === activeTab);
+  const markdownText = markdownFiles[activeTab] || "";
   const galleryList = currentModule.gallery;
 
   return (
     <div className="wiki-shell">
-      {/* Cabecera Estilo Consola */}
-      <header className="tech-nav">
-        <div className="nav-container">
-          <div className="brand-group">
-            <div className="pulse-indicator"></div>
-            <div>
-              <span className="sub-title">INACAP VALPARAÍSO // EVALUACIÓN DE COMPETENCIAS</span>
-              <h2>ESTACIÓN DE CONTROL — AUDITORÍA DE INFRAESTRUCTURA</h2>
-            </div>
-          </div>
-          <div className="sysadmin-card">
-            <span className="user-tag">SYSADMIN: molant</span>
-            <span className="status-tag">STATUS: OPERATIVO</span>
-          </div>
-        </div>
-      </header>
-
-      {/* TABS SUPERIORES DE SELECCIÓN DIDÁCTICA */}
-      <div className="tabs-container">
-        {Object.entries(MODULES).map(([key, item]) => (
-          <button
-            key={`tab-${key}`}
-            onClick={() => {
-              setActiveKey(key);
-              setSelectedImgIdx(0);
-            }}
-            className={`tab-link tab border-${item.color} ${activeTab === key ? `active-${item.color}` : ""}`}
-          >
-            <span className={`tab-badge bg-${item.color}`}>{item.badge}</span>
-            <span className="tab-title-text">{item.title}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* ÁREA DE TRABAJO SPLIT-SCREEN */}
+      {/* DISEÑO CENTRALIZADO MULTIPANEL */}
       <div className="workspace-layout">
         
-        {/* PANEL IZQUIERDO: Contenido Escrito */}
+        {/* PANEL IZQUIERDO: Índice Técnico con Símbolos de Linux */}
+        <aside className="control-panel">
+          <div className="sidebar-header">
+            <span className="terminal-prompt">root@srv-wiki:~#</span>
+            <div className="window-controls">
+              <span className="dot dot-red"></span>
+              <span className="dot dot-yellow"></span>
+              <span className="dot dot-green"></span>
+            </div>
+          </div>
+          <div className="sidebar-meta">
+            <p className="admin-title">👤 ADMIN: <span className="text-emerald">molant</span></p>
+            <p className="admin-sub">🐧 OS: Ubuntu 24.04 LTS</p>
+          </div>
+          <nav className="button-stack">
+            {Object.entries(MODULES).map(([key, item]) => (
+              <button
+                key={`nav-${key}`}
+                onClick={() => {
+                  setActiveKey(key);
+                  setSelectedImgIdx(0);
+                }}
+                className={`tab-link ${activeTab === key ? `active-${item.color}` : ""}`}
+              >
+                <span className="linux-icon">{item.icon}</span>
+                <div className="tab-text-group">
+                  <span className="tab-title-main">{item.title}</span>
+                  <span className="tab-sub-badge">{item.badge}</span>
+                </div>
+              </button>
+            ))}
+          </nav>
+        </aside>
+
+        {/* PANEL CENTRAL: Contenido Académico Formal */}
         <section className="workspace-panel left-panel">
           <div className="panel-header-bar">
-            <span className="file-path-indicator">📄 src/docs_molant/{activeTab}_molant.md</span>
+            <span className="file-path-indicator">📁 cat /var/log/docs_molant/{activeTab}_molant.md</span>
           </div>
           <div className="panel-scroll-body prose-container">
-            {selectedDoc ? renderMarkdown(selectedDoc.content, imageAssets, selectedDoc.id) : null}
+            <h2 className="main-doc-title">{currentModule.title}</h2>
+            
+            {/* VISTA TOTALMENTE INTERACTIVA PARA LA TABLA DE FACTIBILIDAD (MÓDULO 05) */}
+            {activeTab === "paquetes" && (
+              <div className="didactic-table-view animate-fade">
+                <h3 className="doc-subtitle">📊 Matriz de Factibilidad Técnica</h3>
+                <div className="comparison-grid">
+                  <div className="metric-card selected">
+                    <div className="card-badge success">MÉTRICA ÓPTIMA</div>
+                    <h4 className="card-tool-title">📦 htop</h4>
+                    <div className="progress-group">
+                      <label>Peso en Disco (Muy Bajo ~150KB):</label>
+                      <div className="progress-bar-bg"><div className="progress-bar-fill fill-emerald" style={{width: "25%"}}></div></div>
+                    </div>
+                    <p className="metric-stat"><strong>Dependencias:</strong> Ninguna (Stand-alone)</p>
+                    <p className="metric-stat"><strong>Soporte:</strong> Repositorio Main (Total)</p>
+                    <div className="factibility-tag high">ALTA FACTIBILIDAD (ELEGIDO)</div>
+                  </div>
+                  <div className="metric-card passive">
+                    <div className="card-badge gray">MÉTRICA BASE</div>
+                    <h4 className="card-tool-title">📦 top</h4>
+                    <div className="progress-group">
+                      <label>Peso en Disco (Preinstalado):</label>
+                      <div className="progress-bar-bg"><div className="progress-bar-fill fill-slate" style={{width: "5%"}}></div></div>
+                    </div>
+                    <p className="metric-stat"><strong>Dependencias:</strong> Nativo del kernel</p>
+                    <p className="metric-stat"><strong>Soporte:</strong> Nativo</p>
+                    <div className="factibility-tag limited">ALTA PERO LIMITADO</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {getCleanText(markdownText).map((line, idx) => {
+              const cleaned = line.replaceAll("**", "").replaceAll("`", "").trim();
+              if (line.startsWith("##")) {
+                return <h3 key={`h2-${idx}`} className="doc-subtitle">{cleaned}</h3>;
+              }
+              if (line.startsWith("###")) {
+                return <h4 key={`h3-${idx}`} className="doc-section-title">{cleaned}</h4>;
+              }
+              return <p key={`p-${idx}`} className="doc-paragraph">{cleaned}</p>;
+            })}
           </div>
         </section>
 
-        {/* PANEL DERECHO: Visor de Capturas */}
+        {/* PANEL DERECHO: Centro de Inspección de Capturas */}
         <section className="workspace-panel right-panel">
           <div className="panel-header-bar">
-            <span className="file-path-indicator">📷 ESTACIÓN DE INSPECCIÓN DE CAPTURAS</span>
+            <span className="file-path-indicator">📷 DISPLAY // INSPECTOR DE EVIDENCIAS</span>
           </div>
           
           <div className="panel-scroll-body flex-gallery-container">
@@ -335,7 +170,7 @@ export default function App() {
                         onClick={() => setSelectedImgIdx(idx)}
                         className={`selector-btn ${selectedImgIdx === idx ? "selected" : ""}`}
                       >
-                        Evidencia {idx + 1}
+                        Terminal {idx + 1}
                       </button>
                     ))}
                   </div>
@@ -343,7 +178,7 @@ export default function App() {
 
                 <div className="active-photo-display-card">
                   <div className="photo-info-top">
-                    <span className="photo-filename">📌 Archivo: {galleryList[selectedImgIdx].file}</span>
+                    <span className="photo-filename">💾 CLI_SNAPSHOT: {galleryList[selectedImgIdx].file}</span>
                   </div>
                   
                   <div 
@@ -365,31 +200,31 @@ export default function App() {
                         <code>{galleryList[selectedImgIdx].file}</code>
                       </div>
                     )}
-                    <div className="hover-zoom-overlay">Haz clic para expandir terminal</div>
+                    <div className="hover-zoom-overlay">Haz clic para expandir terminal (Fullscreen)</div>
                   </div>
                   
                   <div className="photo-caption-box">
-                    <p className="photo-desc-text"><strong>Descripción Operativa:</strong> {galleryList[selectedImgIdx].desc}</p>
+                    <p className="photo-desc-text"><strong>Output de Consola:</strong> {galleryList[selectedImgIdx].desc}</p>
                   </div>
                 </div>
               </div>
             ) : (
               <div className="empty-gallery-state">
-                <div className="empty-icon">📁</div>
-                <p className="empty-text">Hito enfocado en análisis conceptual.</p>
-                <span className="empty-subtext">No requiere captura de verificación.</span>
+                <div className="empty-icon">📂</div>
+                <p className="empty-text">Módulo enfocado en análisis procedimental conceptual.</p>
+                <span className="empty-subtext">No requiere registro gráfico complementario.</span>
               </div>
             )}
           </div>
         </section>
       </div>
 
-      {/* MODAL INTERACTIVO DE PANTALLA COMPLETA */}
+      {/* VISOR FLOTANTE GIGANTE (LIGHTBOX) */}
       {zoomImg && zoomImg.src && (
         <div className="lightbox-overlay" onClick={() => setZoomImg(null)}>
           <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
             <div className="lightbox-top-bar">
-              <span className="lightbox-title">Revisión CLI: {zoomImg.file}</span>
+              <span className="lightbox-title">Revisión CLI Remota: {zoomImg.file}</span>
               <button className="close-btn" onClick={() => setZoomImg(null)}>✖ Cerrar</button>
             </div>
             <div className="lightbox-image-container">
@@ -402,7 +237,7 @@ export default function App() {
         </div>
       )}
 
-      {/* PIE DE PÁGINA CORREGIDO: Solución a tu requerimiento exacto */}
+      {/* PIE DE PÁGINA INSTITUCIONAL CORREGIDO */}
       <footer className="tech-footer">
         <p>© 2026 INACAP Valparaíso · Ingeniería en Informática · Administración de Sistemas Linux.</p>
       </footer>
