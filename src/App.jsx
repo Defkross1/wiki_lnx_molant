@@ -1,7 +1,7 @@
 import { createElement, useState } from "react";
 import "./App.css";
 
-// Importación cruda de los archivos Markdown locales corporativos
+// Importación directa de los recursos Markdown locales corporativos
 import intro from "./docs_molant/01_inicio_molant.md?raw";
 import licenses from "./docs_molant/02_licencias_molant.md?raw";
 import installation from "./docs_molant/03_instalacion_molant.md?raw";
@@ -20,7 +20,7 @@ const markdownFiles = {
   "./docs_molant/07_prompts_molant.md": prompts,
 };
 
-// Carga e indexación dinámica de la galería real en img_molant/
+// Carga dinámica de recursos gráficos en la carpeta local
 const imageFiles = import.meta.glob(
   "./docs_molant/img_molant/*.{png,jpg,jpeg,webp}",
   {
@@ -41,6 +41,31 @@ const imageAssets = Object.entries(imageFiles).reduce((map, [path, src]) => {
   return map;
 }, {});
 
+// Mapeo directo y forzado de tu galería física de imágenes reales a cada sección correspondiente
+const SECTION_GALLERY = {
+  "01_inicio_molant": [
+    { file: "Terminos  y condiciones.png", title: "Configuración Inicial de la VM en VirtualBox" }
+  ],
+  "02_licencias_molant": [],
+  "03_instalacion_molant": [
+    { file: "Host name.png", title: "Asignación Explicita del Hostname en Ubuntu" },
+    { file: "03_ip_a.png", title: "Verificación de Interfaces de Red con 'ip a'" },
+    { file: "apt_update.png", title: "Actualización de Repositorios y Parches de Seguridad" }
+  ],
+  "04_permisos_molant": [
+    { file: "Terminos  y condiciones.png", title: "Permisos Avanzados del Sistema" }
+  ],
+  "05_paquetes_molant": [
+    { file: "apt_show_htop.png", title: "Auditoría Técnica del Paquete htop" },
+    { file: "apt install.png", title: "Proceso de Instalación de htop mediante APT" },
+    { file: "05_apt.png", title: "Ejecución del Monitor de Procesos htop" }
+  ],
+  "06_nginx_molant": [
+    { file: "06_sitio_en_linux.png", title: "Sitio Web Compilado y Servido Localmente por Nginx" }
+  ],
+  "07_prompts_molant": []
+};
+
 function getTitle(markdown) {
   const lines = markdown.split("\n");
   const firstLine = lines.find((line) => line.trim().startsWith("# "));
@@ -57,7 +82,7 @@ function getSummary(markdown) {
     );
 
   const firstParagraph = blocks.find((block) => !block.startsWith("-") && !block.startsWith("*"));
-  if (!firstParagraph) return "Documentación técnica del sistema.";
+  if (!firstParagraph) return "Documentación técnica de la sección.";
   
   return firstParagraph.replaceAll(/[*_`#]/g, "").slice(0, 80) + "...";
 }
@@ -83,7 +108,6 @@ function resolveAssetPath(url, assetMap) {
   return encodeURI(decoded);
 }
 
-// Parseo lineal seguro sin expresiones regulares anidadas (Cero SonarQube Backtracking)
 function renderInline(text, assetMap, textKey) {
   if (!text) return [];
 
@@ -290,22 +314,24 @@ export default function App() {
   const [activeDoc, setActiveDoc] = useState(initialDocId);
   const selectedDoc = docs.find((doc) => doc.id === activeDoc) ?? docs[0];
 
+  const currentGallery = SECTION_GALLERY[selectedDoc?.id] || [];
+
   return (
     <div className="wiki-shell">
-      {/* Navbar con Colores Corporativos Vivos */}
+      {/* Cabecera Tipo Dashboard Moderno y Didáctico */}
       <header className="hero-panel">
         <div className="hero-content-wrapper">
-          <span className="eyebrow">Área de Informática y Telecomunicaciones</span>
-          <h1>e-Portafolio: Administración Linux Server</h1>
+          <span className="eyebrow">Área de Ingeniería e Informática</span>
+          <h1>e-Portafolio: Wiki de Administración Linux Server</h1>
           <p className="hero-text">
-            Portal interactivo de evidencias para la Unidad 3 de Sistemas Operativos. Documentación técnica de hardening, direccionamiento IP y despliegue de servicios.
+            Portal interactivo para la verificación de evidencias sobre Ubuntu Server 24.04 LTS. Configuración de servicios, redes y seguridad local por CLI.
           </p>
           <div className="hero-meta-strip">
             <div className="meta-badge student">
               <span className="badge-dot"></span> Administrador: Molina Antolin (molant)
             </div>
             <div className="meta-badge version">
-              Entorno: Ubuntu Server 24.04 LTS
+              Ubicación Física: /src/docs_molant/
             </div>
           </div>
         </div>
@@ -314,10 +340,10 @@ export default function App() {
       {/* Grid del Dashboard */}
       <div className="content-grid">
         
-        {/* Panel del Índice Didáctico Lateral */}
+        {/* Panel del Índice Lateral */}
         <aside className="sidebar">
           <h2>Módulos Técnicos</h2>
-          <p>Navega a través de los hitos evaluados por el profesor Rubén Schnettler.</p>
+          <p>Selecciona un hito para inspeccionar las evidencias reales cargadas en el sistema.</p>
           <nav>
             {docs.map((doc) => (
               <button
@@ -333,8 +359,8 @@ export default function App() {
           </nav>
         </aside>
 
-        {/* Visualizador de Documentación Central */}
-        <section className="article-card">
+        {/* Panel Central del Contenido */}
+        <main className="article-card">
           <div className="article-header">
             <span className="article-kicker">Reporte Operativo Conforme</span>
             <h2>{selectedDoc?.title}</h2>
@@ -342,7 +368,36 @@ export default function App() {
           <div className="article-body">
             {selectedDoc ? renderMarkdown(selectedDoc.content, imageAssets, selectedDoc.id) : null}
           </div>
-        </section>
+
+          {/* Galería Dinámica e Interactiva de Capturas Reales de Windows/Ubuntu */}
+          {currentGallery.length > 0 && (
+            <div className="gallery-section">
+              <h3 className="gallery-title">📁 Galería de Evidencias Capturadas</h3>
+              <div className="gallery-grid">
+                {currentGallery.map((img, idx) => {
+                  const resolvedSrc = imageAssets[img.file];
+                  return (
+                    <div key={`gal-${selectedDoc.id}-${idx}`} className="gallery-item">
+                      <span className="gallery-item-tag">{img.title}</span>
+                      {resolvedSrc ? (
+                        <img
+                          src={resolvedSrc}
+                          alt={img.file}
+                          className="gallery-image"
+                        />
+                      ) : (
+                        <div className="gallery-error">
+                          <p>⚠️ Archivo no encontrado:</p>
+                          <code className="text-xs">{img.file}</code>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </main>
       </div>
     </div>
   );
