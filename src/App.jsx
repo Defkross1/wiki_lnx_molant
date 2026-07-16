@@ -1,7 +1,7 @@
 import { createElement, useState } from "react";
 import "./App.css";
 
-// Importación directa de la documentación técnica real
+// Importación directa de la documentación técnica real[cite: 1]
 import intro from "./docs_molant/01_inicio_molant.md?raw";
 import licenses from "./docs_molant/02_licencias_molant.md?raw";
 import installation from "./docs_molant/03_instalacion_molant.md?raw";
@@ -20,7 +20,7 @@ const markdownFiles = {
   "bitacora": prompts,
 };
 
-// Carga dinámica y limpia de los recursos gráficos de tu carpeta local[cite: 2]
+// Carga dinámica limpia de los recursos gráficos locales
 const imageFiles = import.meta.glob(
   "./docs_molant/img_molant/*.{png,jpg,jpeg,webp}",
   { eager: true, import: "default" }
@@ -36,18 +36,18 @@ const imageAssets = Object.entries(imageFiles).reduce((map, [path, src]) => {
   return map;
 }, {});
 
-// MAPEO EXCLUSIVO Y DIRIGIDO DE TU GALERÍA REAL DE CAPTURAS
+// MAPEO Y DISTRIBUCIÓN DIRIGIDA DE TU GALERÍA REAL DE CAPTURAS
 const MODULES = {
   inicio: {
-    title: "01. Portada",
+    title: "01. Portada y Objetivos",
     badge: "TOPOLOGÍA",
     color: "blue",
     gallery: [
-      { file: "Terminos  y condiciones.png", desc: "Aprovisionamiento de hardware y configuración del entorno base en Oracle VirtualBox." }
+      { file: "Terminos  y condiciones.png", desc: "Aprovisionamiento de hardware y entorno de virtualización en VirtualBox." }
     ]
   },
   licencias: {
-    title: "02. Licencias",
+    title: "02. Licencias y Legalidad",
     badge: "SOFTWARE LIBRE",
     color: "purple",
     gallery: [
@@ -56,7 +56,7 @@ const MODULES = {
     ]
   },
   instalacion: {
-    title: "03. Red e IP",
+    title: "03. Red e Interfaz IP",
     badge: "CONFIG CLI",
     color: "emerald",
     gallery: [
@@ -67,17 +67,17 @@ const MODULES = {
     ]
   },
   permisos: {
-    title: "04. Permisos",
+    title: "04. Control de Accesos",
     badge: "SEGURIDAD",
     color: "amber",
     gallery: [
       { file: "04_permisos.png", desc: "Manejo de máscaras octales chmod y reasignación chown." },
-      { file: "Ls_completo.png", desc: "Inspección de directivas extendidas del sistema de archivos." },
+      { file: "Ls_completo.png", desc: "Inspección de directivas con formato extendido ls -l." },
       { file: "ls-l.png", desc: "Validación en bloque de bits de control local." }
     ]
   },
   paquetes: {
-    title: "05. APT Pack",
+    title: "05. Gestión de Paquetes",
     badge: "FACTIBILIDAD",
     color: "indigo",
     gallery: [
@@ -87,7 +87,7 @@ const MODULES = {
     ]
   },
   nginx: {
-    title: "06. Nginx Web",
+    title: "06. Motor Web Nginx",
     badge: "HTTP GLOBAL",
     color: "cyan",
     gallery: [
@@ -98,7 +98,7 @@ const MODULES = {
     ]
   },
   bitacora: {
-    title: "07. Bitácora",
+    title: "07. Bitácora de Cambios",
     badge: "PROMPTS IA",
     color: "rose",
     gallery: []
@@ -128,8 +128,8 @@ export default function App() {
           <div className="brand-group">
             <div className="pulse-indicator"></div>
             <div>
-              <span className="sub-title">INACAP VALPARAÍSO // TI3V35</span>
-              <h2>WIKI CONSOLE — ADMINISTRACIÓN LINUX SERVER</h2>
+              <span className="sub-title">INACAP VALPARAÍSO // EVALUACIÓN UNIDAD 3</span>
+              <h2>ESTACIÓN DE CONTROL — AUDITORÍA DE INFRAESTRUCTURA</h2>
             </div>
           </div>
           <div className="sysadmin-card">
@@ -139,7 +139,7 @@ export default function App() {
         </div>
       </header>
 
-      {/* TABS SUPERIORES DE SELECCIÓN DIDÁCTICA (Cambio radical de layout) */}
+      {/* TABS SUPERIORES DE SELECCIÓN DIDÁCTICA */}
       <div className="tabs-container">
         {Object.entries(MODULES).map(([key, item]) => (
           <button
@@ -166,6 +166,70 @@ export default function App() {
           </div>
           <div className="panel-scroll-body prose-container">
             <h2 className="main-doc-title">{currentModule.title}</h2>
+            
+            {/* INTERFAZ GAMIFICADA EXCLUSIVA PARA EL CRITERIO 3.1.4 (PAQUETES) */}
+            {activeTab === "paquetes" ? (
+              <div className="didactic-packages-view">
+                <h3 className="doc-subtitle">Evaluación de Factibilidad Técnica</h3>
+                <p className="doc-paragraph">
+                  Análisis comparativo de herramientas de diagnóstico de rendimiento bajo demandas de recursos en entornos de producción:
+                </p>
+                
+                <div className="comparison-cards-grid">
+                  {/* Tarjeta htop */}
+                  <div className="tool-card selected-tool">
+                    <div className="tool-card-header">
+                      <span className="tool-name">htop</span>
+                      <span className="tool-status-badge selected">ELEGIDO // RECOMENDADO</span>
+                    </div>
+                    <div className="tool-metrics">
+                      <div className="metric-row">
+                        <span className="metric-label">Peso en Disco (~150KB):</span>
+                        <div className="metric-bar-bg"><div className="metric-bar-fill emerald" style={{width: "20%"}}></div></div>
+                      </div>
+                      <div className="metric-row">
+                        <span className="metric-label">Dependencias:</span>
+                        <span className="metric-value-tag green">Ninguna (Stand-alone)</span>
+                      </div>
+                      <div className="metric-row">
+                        <span className="metric-label">Soporte Oficial:</span>
+                        <span className="metric-value-tag blue">Repositorio Main (Total)</span>
+                      </div>
+                    </div>
+                    <div className="tool-factibility font-bold text-emerald-700 bg-emerald-50 p-2.5 rounded text-center text-xs mt-3 border border-emerald-200">
+                      FACTIBILIDAD: ALTA (ÓPTIMO RENDIMIENTO)
+                    </div>
+                  </div>
+
+                  {/* Tarjeta top */}
+                  <div className="tool-card passive-tool">
+                    <div className="tool-card-header">
+                      <span className="tool-name">top</span>
+                      <span className="tool-status-badge legacy">NATIVO</span>
+                    </div>
+                    <div className="tool-metrics">
+                      <div className="metric-row">
+                        <span className="metric-label">Peso en Disco (0KB):</span>
+                        <div className="metric-bar-bg"><div className="metric-bar-fill slate" style={{width: "5%"}}></div></div>
+                      </div>
+                      <div className="metric-row">
+                        <span className="metric-label">Dependencias:</span>
+                        <span className="metric-value-tag gray">Nativo del Kernel Linux</span>
+                      </div>
+                      <div className="metric-row">
+                        <span className="metric-label">Soporte Oficial:</span>
+                        <span className="metric-value-tag gray">Core Estándar</span>
+                      </div>
+                    </div>
+                    <div className="tool-factibility font-bold text-amber-700 bg-amber-50 p-2.5 rounded text-center text-xs mt-3 border border-amber-200">
+                      FACTIBILIDAD: ALTA PERO LIMITADO (SIN CLI DINÁMICA)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            {/* Renderizado Normal del resto de textos Markdown */}
             {getCleanText(markdownText).map((line, idx) => {
               const cleaned = line.replaceAll("**", "").replaceAll("`", "").trim();
               if (line.startsWith("##")) {
@@ -211,9 +275,19 @@ export default function App() {
                   
                   <div 
                     className="photo-frame"
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Expandir ${galleryList[selectedImgIdx].file}`}
                     onClick={() => {
                       const activeFile = galleryList[selectedImgIdx].file;
                       setZoomImg({ src: imageAssets[activeFile], file: activeFile, desc: galleryList[selectedImgIdx].desc });
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        const activeFile = galleryList[selectedImgIdx].file;
+                        setZoomImg({ src: imageAssets[activeFile], file: activeFile, desc: galleryList[selectedImgIdx].desc });
+                        e.preventDefault();
+                      }
                     }}
                   >
                     {imageAssets[galleryList[selectedImgIdx].file] ? (
@@ -247,7 +321,7 @@ export default function App() {
         </section>
       </div>
 
-      {/* MODAL INTERACTIVO DE ZOOM FLOTANTE (LIGHTBOX) */}
+      {/* MODAL INTERACTIVO DE ZOOM GIGANTE */}
       {zoomImg && zoomImg.src && (
         <div className="lightbox-overlay" onClick={() => setZoomImg(null)}>
           <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
@@ -256,7 +330,7 @@ export default function App() {
               <button className="close-btn" onClick={() => setZoomImg(null)}>✖ Cerrar</button>
             </div>
             <div className="lightbox-image-container">
-              <img src={zoomImg.src} alt="Evidencia ampliada" className="lightbox-scaled-image" />
+              <img src={zoomImg.src} alt="Evidencia" className="lightbox-scaled-image" />
             </div>
             <div className="lightbox-footer">
               <p>{zoomImg.desc}</p>
