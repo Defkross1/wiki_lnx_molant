@@ -1,4 +1,4 @@
-06. Instalación de Nginx y Despliegue Local
+# 06. Instalación de Nginx y Despliegue Local
 
 Configuración del Servidor Web Corporativo
 Para publicar nuestra Wiki interactiva directamente desde el propio srv-wiki en el puerto virtualizado 8080, se ejecutó el siguiente plan de despliegue:

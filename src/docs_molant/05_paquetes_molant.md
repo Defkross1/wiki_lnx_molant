@@ -1,4 +1,4 @@
-05. Gestores de Paquetes (APT)
+# 05. Gestores de Paquetes (APT)
 Criterio de Factibilidad Tecnológica
 
 Para monitorear el rendimiento en tiempo real del servidor srv-wiki, se evaluaron soluciones técnicas nativas mediante el gestor APT:

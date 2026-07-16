@@ -1,4 +1,4 @@
-04. Gestión de Archivos y Directorios
+# 04. Gestión de Archivos y Directorios
 Comandos y Lectura de Permisos
 En Linux Server, la administración de la seguridad en disco se controla de manera estricta mediante la interfaz de consola:
 
