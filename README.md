@@ -55,5 +55,4 @@ Se utilizó un repositorio de referencia únicamente como guía para entender la
 ---
 
 ## Autor
-
-Trabajo realizado como parte de una actividad académica.
+por Antolin Molina.
