@@ -1,7 +1,7 @@
-import { createElement, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 
-// Importación directa de los recursos Markdown locales corporativos
+// Importación directa de la documentación técnica real de tu laboratorio
 import intro from "./docs_molant/01_inicio_molant.md?raw";
 import licenses from "./docs_molant/02_licencias_molant.md?raw";
 import installation from "./docs_molant/03_instalacion_molant.md?raw";
@@ -10,23 +10,10 @@ import packages from "./docs_molant/05_paquetes_molant.md?raw";
 import nginx from "./docs_molant/06_nginx_molant.md?raw";
 import prompts from "./docs_molant/07_prompts_molant.md?raw";
 
-const markdownFiles = {
-  "./docs_molant/01_inicio_molant.md": intro,
-  "./docs_molant/02_licencias_molant.md": licenses,
-  "./docs_molant/03_instalacion_molant.md": installation,
-  "./docs_molant/04_permisos_molant.md": permissions,
-  "./docs_molant/05_paquetes_molant.md": packages,
-  "./docs_molant/06_nginx_molant.md": nginx,
-  "./docs_molant/07_prompts_molant.md": prompts,
-};
-
-// Carga dinámica de recursos gráficos en la carpeta local
+// Descubrimiento dinámico de los recursos gráficos de tu carpeta local
 const imageFiles = import.meta.glob(
   "./docs_molant/img_molant/*.{png,jpg,jpeg,webp}",
-  {
-    eager: true,
-    import: "default",
-  },
+  { eager: true, import: "default" }
 );
 
 const imageAssets = Object.entries(imageFiles).reduce((map, [path, src]) => {
@@ -34,371 +21,224 @@ const imageAssets = Object.entries(imageFiles).reduce((map, [path, src]) => {
   if (basename) {
     map[basename] = src;
     const decoded = decodeURIComponent(basename);
-    if (decoded !== basename) {
-      map[decoded] = src;
-    }
+    if (decoded !== basename) map[decoded] = src;
   }
   return map;
 }, {});
 
-// Mapeo directo y forzado de tu galería física de imágenes reales a cada sección correspondiente
-const SECTION_GALLERY = {
-  "01_inicio_molant": [
-    { file: "Terminos  y condiciones.png", title: "Configuración Inicial de la VM en VirtualBox" }
-  ],
-  "02_licencias_molant": [],
-  "03_instalacion_molant": [
-    { file: "Host name.png", title: "Asignación Explicita del Hostname en Ubuntu" },
-    { file: "03_ip_a.png", title: "Verificación de Interfaces de Red con 'ip a'" },
-    { file: "apt_update.png", title: "Actualización de Repositorios y Parches de Seguridad" }
-  ],
-  "04_permisos_molant": [
-    { file: "Terminos  y condiciones.png", title: "Permisos Avanzados del Sistema" }
-  ],
-  "05_paquetes_molant": [
-    { file: "apt_show_htop.png", title: "Auditoría Técnica del Paquete htop" },
-    { file: "apt install.png", title: "Proceso de Instalación de htop mediante APT" },
-    { file: "05_apt.png", title: "Ejecución del Monitor de Procesos htop" }
-  ],
-  "06_nginx_molant": [
-    { file: "06_sitio_en_linux.png", title: "Sitio Web Compilado y Servido Localmente por Nginx" }
-  ],
-  "07_prompts_molant": []
+// ESTRUCTURACIÓN Y ENLAZADO EXACTO DE TU GALERÍA REAL DE CAPTURAS
+const MODULES = {
+  inicio: {
+    title: "01. Portada y Topología",
+    badge: "INFRAESTRUCTURA",
+    color: "blue",
+    rawContent: intro,
+    gallery: [
+      { file: "Terminos  y condiciones.png", desc: "Verificación de la carga inicial del entorno virtualizado en VirtualBox." }
+    ]
+  },
+  licencias: {
+    title: "02. Licenciamiento y Software Libre",
+    badge: "AUDITORÍA",
+    color: "purple",
+    rawContent: licenses,
+    gallery: [
+      { file: "02_licencias.png", desc: "Análisis y lectura de las directivas de licenciamiento GNU/GPL." },
+      { file: "licenses.png", desc: "Validación de los términos legales de uso comercial del servidor." }
+    ]
+  },
+  instalacion: {
+    title: "03. Configuración de Red e IP",
+    badge: "HARDENING",
+    color: "emerald",
+    rawContent: installation,
+    gallery: [
+      { file: "Host name.png", desc: "Comando sudo hostnamectl aplicado para definir el nodo srv-wiki." },
+      { file: "03_ip_a.png", desc: "Salida del comando 'ip a' auditando la interfaz de red direccionada por NAT." },
+      { file: "apt_update.png", desc: "Ejecución de sincronización de repositorios de seguridad APT." },
+      { file: "sudo_apt_update_upgrade.png", desc: "Actualización global de paquetes críticos del sistema operativo." }
+    ]
+  },
+  permisos: {
+    title: "04. Control de Accesos y Permisos",
+    badge: "SEGURIDAD LOCAL",
+    color: "amber",
+    rawContent: permissions,
+    gallery: [
+      { file: "04_permisos.png", desc: "Auditoría de máscaras chmod octales y asignación de propietarios con chown." },
+      { file: "Ls_completo.png", desc: "Estructura completa del listado de directorios con atributos de seguridad de usuario." },
+      { file: "ls-l.png", desc: "Verificación en consola de bits de lectura, escritura y ejecución por bloque." }
+    ]
+  },
+  paquetes: {
+    title: "05. Gestión de Paquetes (APT)",
+    badge: "MONITORIZACIÓN",
+    color: "indigo",
+    rawContent: packages,
+    gallery: [
+      { file: "apt install.png", desc: "Instalación automatizada de la herramienta de diagnóstico htop." },
+      { file: "apt_show_htop.png", desc: "Inspección de metadatos, peso y árbol de dependencias antes del despliegue." },
+      { file: "05_apt.png", desc: "Consola de htop activa verificando el uso de CPU y memoria de los hilos de Linux." },
+      { file: "apt_show_htop.png", desc: "Validación del origen del paquete en los repositorios oficiales de Ubuntu." }
+    ]
+  },
+  nginx: {
+    title: "06. Motor Web Nginx",
+    badge: "PRODUCCIÓN HTTP",
+    color: "cyan",
+    rawContent: nginx,
+    gallery: [
+      { file: "06_sitio_en_linux.png", desc: "Resultado del despliegue estático servido de forma nativa en el puerto 8080." },
+      { file: "install_nginx.png", desc: "Aprovisionamiento del paquete oficial de nginx mediante el gestor core." },
+      { file: "install_nginx_status.png", desc: "Comando systemctl status nginx ratificando el estado active (running)." },
+      { file: "Openssh_80tcp.png", desc: "Apertura y mapeo del socket TCP en el Firewall para el tráfico web entrante." }
+    ]
+  },
+  bitacora: {
+    title: "07. Bitácora de Prompts e IA",
+    badge: "RESOLUCIÓN",
+    color: "rose",
+    rawContent: prompts,
+    gallery: []
+  }
 };
 
-function getTitle(markdown) {
-  const lines = markdown.split("\n");
-  const firstLine = lines.find((line) => line.trim().startsWith("# "));
-  return firstLine ? firstLine.trim().slice(2).trim() : "Módulo de Laboratorio";
-}
-
-function getSummary(markdown) {
-  const blocks = markdown
-    .split("\n")
-    .map((block) => block.trim())
-    .filter(
-      (block) =>
-        block && !block.startsWith("#") && !block.startsWith("![") && !block.startsWith("```"),
-    );
-
-  const firstParagraph = blocks.find((block) => !block.startsWith("-") && !block.startsWith("*"));
-  if (!firstParagraph) return "Documentación técnica de la sección.";
-  
-  return firstParagraph.replaceAll(/[*_`#]/g, "").slice(0, 80) + "...";
-}
-
-function resolveAssetPath(url, assetMap) {
-  const trimmed = (url || "").trim();
-  if (!trimmed) return "";
-  if (/^https?:\/\//i.test(trimmed) || trimmed.startsWith("data:") || trimmed.startsWith("/")) {
-    return trimmed;
-  }
-
-  const decoded = decodeURIComponent(trimmed).replaceAll("\\", "/");
-  const basename = decoded.split("/").pop() || decoded;
-  
-  const candidates = [
-    basename,
-    basename.replaceAll("%20", " "),
-  ];
-
-  for (const candidate of candidates) {
-    if (assetMap[candidate]) return assetMap[candidate];
-  }
-  return encodeURI(decoded);
-}
-
-function renderInline(text, assetMap, textKey) {
-  if (!text) return [];
-
-  const codeParts = text.split("`");
-  return codeParts.flatMap((codeChunk, codeIdx) => {
-    if (codeIdx % 2 !== 0) {
-      return [<code key={`code-${textKey}-${codeIdx}`}>{codeChunk}</code>];
-    }
-
-    const boldParts = codeChunk.split("**");
-    return boldParts.flatMap((boldChunk, boldIdx) => {
-      if (boldIdx % 2 !== 0) {
-        return [<strong key={`bold-${textKey}-${codeIdx}-${boldIdx}`}>{boldChunk}</strong>];
-      }
-
-      const finalParts = [];
-      let remainder = boldChunk;
-      let loopGuard = 0;
-
-      while (remainder.includes("[") && remainder.includes(")") && loopGuard < 30) {
-        loopGuard++;
-        const openBracket = remainder.indexOf("[");
-        const closeBracket = remainder.indexOf("]");
-        const openParen = remainder.indexOf("(");
-        const closeParen = remainder.indexOf(")");
-
-        if (closeBracket > openBracket && openParen === closeBracket + 1 && closeParen > openParen) {
-          if (openBracket > 0) {
-            const isImg = openBracket > 0 && remainder[openBracket - 1] === "!";
-            const textBefore = isImg ? remainder.slice(0, openBracket - 1) : remainder.slice(0, openBracket);
-            if (textBefore) finalParts.push(textBefore);
-          }
-
-          const label = remainder.slice(openBracket + 1, closeBracket);
-          const linkPath = remainder.slice(openParen + 1, closeParen);
-          const src = resolveAssetPath(linkPath, assetMap);
-          const currentKey = `${textKey}-${loopGuard}`;
-
-          if (openBracket > 0 && remainder[openBracket - 1] === "!") {
-            finalParts.push(
-              <img key={`img-in-${currentKey}`} src={src} alt={label || "evidencia"} className="inline-image" />
-            );
-          } else {
-            finalParts.push(
-              <a key={`link-in-${currentKey}`} href={src} target="_blank" rel="noreferrer" className="article-link">
-                {label}
-              </a>
-            );
-          }
-          remainder = remainder.slice(closeParen + 1);
-        } else {
-          break;
-        }
-      }
-
-      if (remainder) finalParts.push(remainder);
-      return finalParts;
-    });
-  });
-}
-
-function renderMarkdown(markdown, assetMap, docId) {
-  const blocks = [];
-  const lines = markdown.split(/\r?\n/);
-  let paragraphLines = [];
-  let listItems = [];
-  let inCodeBlock = false;
-  let codeLines = [];
-
-  const flushParagraph = (lineId) => {
-    if (paragraphLines.length) {
-      const contentText = paragraphLines.join(" ").trim();
-      blocks.push(
-        <p key={`p-${docId}-${lineId}`} className="article-paragraph">
-          {renderInline(contentText, assetMap, `${docId}-${lineId}`)}
-        </p>,
-      );
-      paragraphLines = [];
-    }
-  };
-
-  const flushList = (lineId) => {
-    if (listItems.length) {
-      blocks.push(
-        <ul key={`ul-${docId}-${lineId}`} className="article-list">
-          {listItems}
-        </ul>,
-      );
-      listItems = [];
-    }
-  };
-
-  lines.forEach((line, index) => {
-    const trimmed = line.trim();
-
-    if (trimmed.startsWith("```")) {
-      if (inCodeBlock) {
-        inCodeBlock = false;
-        blocks.push(
-          <pre key={`codeblock-${docId}-${index}`}>
-            <code>{codeLines.join("\n")}</code>
-          </pre>
-        );
-        codeLines = [];
-      } else {
-        flushParagraph(index);
-        flushList(index);
-        inCodeBlock = true;
-      }
-      return;
-    }
-
-    if (inCodeBlock) {
-      codeLines.push(line);
-      return;
-    }
-
-    if (!trimmed) {
-      flushParagraph(index);
-      flushList(index);
-      return;
-    }
-
-    if (trimmed.startsWith("#")) {
-      flushParagraph(index);
-      flushList(index);
-      
-      let level = 1;
-      if (trimmed.startsWith("### ")) level = 3;
-      else if (trimmed.startsWith("## ")) level = 2;
-      
-      const content = trimmed.replace(/^#+\s+/, "");
-      const headingTag = `h${Math.min(level + 1, 3)}`;
-      
-      blocks.push(
-        createElement(
-          headingTag,
-          { key: `h-${docId}-${index}` },
-          renderInline(content, assetMap, `${docId}-${index}`),
-        ),
-      );
-      return;
-    }
-
-    if (trimmed.startsWith("![") && trimmed.endsWith(")")) {
-      flushParagraph(index);
-      flushList(index);
-      const openBracket = trimmed.indexOf("[");
-      const closeBracket = trimmed.indexOf("]");
-      const openParenthesis = trimmed.indexOf("(");
-      const closeParenthesis = trimmed.indexOf(")");
-      
-      if (openBracket !== -1 && closeBracket > openBracket && openParenthesis > closeBracket) {
-        const altText = trimmed.slice(openBracket + 1, closeBracket);
-        const imagePath = trimmed.slice(openParenthesis + 1, closeParenthesis);
-        const src = resolveAssetPath(imagePath, assetMap);
-        blocks.push(
-          <img
-            key={`img-block-${docId}-${index}`}
-            src={src}
-            alt={altText || "evidencia"}
-            className="article-image"
-          />,
-        );
-      }
-      return;
-    }
-
-    if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
-      flushParagraph(index);
-      const content = trimmed.slice(2);
-      listItems.push(
-        <li key={`li-${docId}-${index}`}>
-          {renderInline(content, assetMap, `${docId}-${index}`)}
-        </li>,
-      );
-      return;
-    }
-
-    paragraphLines.push(trimmed);
-  });
-
-  flushParagraph(lines.length);
-  flushList(lines.length);
-
-  return blocks;
-}
-
-const docs = Object.entries(markdownFiles)
-  .map(([path, content]) => {
-    const docId = path.split("/").pop()?.replace(/\.md$/, "") ?? "doc";
-    return {
-      id: docId,
-      title: getTitle(content),
-      summary: getSummary(content),
-      content,
-      path,
-    };
-  })
-  .sort((a, b) => a.id.localeCompare(b.id));
-
 export default function App() {
-  const initialDocId = docs[0]?.id ?? "";
-  const [activeDoc, setActiveDoc] = useState(initialDocId);
-  const selectedDoc = docs.find((doc) => doc.id === activeDoc) ?? docs[0];
+  const [activeKey, setActiveKey] = useState("inicio");
+  const [zoomImg, setZoomImg] = useState(null);
 
-  const currentGallery = SECTION_GALLERY[selectedDoc?.id] || [];
+  const currentModule = MODULES[activeKey];
+
+  // Limpiador básico para simular el renderizado de texto del Markdown sin Regex anidadas
+  const cleanLine = (line) => {
+    if (line.startsWith("#")) return "";
+    if (line.startsWith("![")) return "";
+    return line.replaceAll("**", "").replaceAll("`", "").trim();
+  };
 
   return (
     <div className="wiki-shell">
-      {/* Cabecera Tipo Dashboard Moderno y Didáctico */}
-      <header className="hero-panel">
-        <div className="hero-content-wrapper">
-          <span className="eyebrow">Área de Ingeniería e Informática</span>
-          <h1>e-Portafolio: Wiki de Administración Linux Server</h1>
-          <p className="hero-text">
-            Portal interactivo para la verificación de evidencias sobre Ubuntu Server 24.04 LTS. Configuración de servicios, redes y seguridad local por CLI.
-          </p>
-          <div className="hero-meta-strip">
-            <div className="meta-badge student">
-              <span className="badge-dot"></span> Administrador: Molina Antolin (molant)
+      {/* Header Estilo Consola de Control de Red */}
+      <header className="tech-nav">
+        <div className="nav-container">
+          <div className="brand-group">
+            <div className="pulse-indicator"></div>
+            <div>
+              <span className="sub-title">INACAP VALPARAÍSO · TI3V35</span>
+              <h2>CONSOLE MONITOR // INFRAESTRUCTURA LINUX</h2>
             </div>
-            <div className="meta-badge version">
-              Ubicación Física: /src/docs_molant/
-            </div>
+          </div>
+          <div className="sysadmin-card">
+            <span className="user-tag">SYSADMIN: molant</span>
+            <span className="status-tag">STATUS: ONLINE</span>
           </div>
         </div>
       </header>
 
-      {/* Grid del Dashboard */}
-      <div className="content-grid">
+      {/* Layout de Dos Columnas Dinámicas */}
+      <div className="dashboard-grid">
         
-        {/* Panel del Índice Lateral */}
-        <aside className="sidebar">
-          <h2>Módulos Técnicos</h2>
-          <p>Selecciona un hito para inspeccionar las evidencias reales cargadas en el sistema.</p>
-          <nav>
-            {docs.map((doc) => (
+        {/* Barra Lateral Interactiva (Botones de Control) */}
+        <aside className="control-panel">
+          <h3 className="panel-title">Módulos de Auditoría</h3>
+          <div className="button-stack">
+            {Object.entries(MODULES).map(([key, item]) => (
               <button
-                key={`nav-btn-${doc.id}`}
-                type="button"
-                className={`sidebar-link ${doc.id === selectedDoc?.id ? "active" : ""}`}
-                onClick={() => setActiveDoc(doc.id)}
+                key={key}
+                onClick={() => {
+                  setActiveKey(key);
+                }}
+                className={`tab-trigger ${activeKey === key ? `active-${item.color}` : ""}`}
               >
-                <strong>{doc.title}</strong>
-                <span>{doc.summary}</span>
+                <div className="trigger-header">
+                  <span className={`badge bg-${item.color}`}>{item.badge}</span>
+                </div>
+                <span className="trigger-title">{item.title}</span>
               </button>
             ))}
-          </nav>
+          </div>
         </aside>
 
-        {/* Panel Central del Contenido */}
-        <main className="article-card">
-          <div className="article-header">
-            <span className="article-kicker">Reporte Operativo Conforme</span>
-            <h2>{selectedDoc?.title}</h2>
-          </div>
-          <div className="article-body">
-            {selectedDoc ? renderMarkdown(selectedDoc.content, imageAssets, selectedDoc.id) : null}
+        {/* Monitor de Visualización Central */}
+        <main className="display-monitor">
+          <div className="monitor-header">
+            <span className="terminal-path">/var/log/sysadmin/docs_molant/{activeKey}_molant.md</span>
+            <span className="window-dot"></span>
           </div>
 
-          {/* Galería Dinámica e Interactiva de Capturas Reales de Windows/Ubuntu */}
-          {currentGallery.length > 0 && (
-            <div className="gallery-section">
-              <h3 className="gallery-title">📁 Galería de Evidencias Capturadas</h3>
-              <div className="gallery-grid">
-                {currentGallery.map((img, idx) => {
-                  const resolvedSrc = imageAssets[img.file];
-                  return (
-                    <div key={`gal-${selectedDoc.id}-${idx}`} className="gallery-item">
-                      <span className="gallery-item-tag">{img.title}</span>
-                      {resolvedSrc ? (
-                        <img
-                          src={resolvedSrc}
-                          alt={img.file}
-                          className="gallery-image"
-                        />
-                      ) : (
-                        <div className="gallery-error">
-                          <p>⚠️ Archivo no encontrado:</p>
-                          <code className="text-xs">{img.file}</code>
-                        </div>
-                      )}
-                    </div>
-                  );
+          <div className="monitor-body">
+            {/* Texto del Documento */}
+            <div className="document-content">
+              <h2 className="doc-heading">{currentModule.title}</h2>
+              <div className="text-container">
+                {currentModule.rawContent.split("\n").map((line, idx) => {
+                  const cleaned = cleanLine(line);
+                  if (!cleaned) return null;
+                  if (line.trim().startsWith("##")) {
+                    return <h3 key={idx} className="section-subheading">{cleaned}</h3>;
+                  }
+                  return <p key={idx} className="text-paragraph">{cleaned}</p>;
                 })}
               </div>
             </div>
-          )}
+
+            {/* SECCIÓN INTERACTIVA DE GALERÍA DIDÁCTICA CON ZOOM */}
+            {currentModule.gallery.length > 0 && (
+              <div className="interactive-gallery">
+                <h3 className="gallery-section-title">🖼️ Evidencias Gráficas del Módulo (Haz clic para ampliar)</h3>
+                <div className="gallery-layout">
+                  {currentModule.gallery.map((img, idx) => {
+                    const src = imageAssets[img.file];
+                    return (
+                      <div 
+                        key={idx} 
+                        className="screenshot-card"
+                        onClick={() => setZoomImg(src ? { src, desc: img.desc, file: img.file } : null)}
+                      >
+                        <div className="card-top">
+                          <span className="file-name-label">🔍 {img.file}</span>
+                        </div>
+                        {src ? (
+                          <div className="img-wrapper">
+                            <img src={src} alt={img.file} className="thumbnail" />
+                          </div>
+                        ) : (
+                          <div className="missing-file-alert">
+                            <p>⚠️ Archivo ausente en /img_molant:</p>
+                            <code>{img.file}</code>
+                          </div>
+                        )}
+                        <p className="card-description">{img.desc}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
         </main>
       </div>
+
+      {/* MODAL INTERACTIVO FLOTANTE DE ZOOM (Petición de Máxima Visibilidad) */}
+      {zoomImg && (
+        <div className="lightbox-overlay" onClick={() => setZoomImg(null)}>
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <div className="lightbox-top-bar">
+              <span className="lightbox-title">Visor de Evidencia de Consola: {zoomImg.file}</span>
+              <button className="close-btn" onClick={() => setZoomImg(null)}>✖ Cerrar</button>
+            </div>
+            <img src={zoomImg.src} alt="Evidencia ampliada" className="lightbox-scaled-image" />
+            <div className="lightbox-footer">
+              <p>{zoomImg.desc}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Footer */}
+      <footer className="tech-footer">
+        <p>© 2026 INACAP Valparaíso · Escuela de Informática y Telecomunicaciones · Proyecto de Evidencias Integradas.</p>
+      </footer>
     </div>
   );
 }
