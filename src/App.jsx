@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { createElement, useState } from "react";
 import "./App.css";
 
-// Importación directa de la documentación técnica real de tu laboratorio
+// Importación directa de la documentación técnica real
 import intro from "./docs_molant/01_inicio_molant.md?raw";
 import licenses from "./docs_molant/02_licencias_molant.md?raw";
 import installation from "./docs_molant/03_instalacion_molant.md?raw";
@@ -10,7 +10,17 @@ import packages from "./docs_molant/05_paquetes_molant.md?raw";
 import nginx from "./docs_molant/06_nginx_molant.md?raw";
 import prompts from "./docs_molant/07_prompts_molant.md?raw";
 
-// Descubrimiento dinámico de los recursos gráficos de tu carpeta local
+const markdownFiles = {
+  "inicio": intro,
+  "licencias": licenses,
+  "instalacion": installation,
+  "permisos": permissions,
+  "paquetes": packages,
+  "nginx": nginx,
+  "bitacora": prompts,
+};
+
+// Carga dinámica y limpia de los recursos gráficos de tu carpeta local[cite: 2]
 const imageFiles = import.meta.glob(
   "./docs_molant/img_molant/*.{png,jpg,jpeg,webp}",
   { eager: true, import: "default" }
@@ -26,208 +36,228 @@ const imageAssets = Object.entries(imageFiles).reduce((map, [path, src]) => {
   return map;
 }, {});
 
-// ESTRUCTURACIÓN Y ENLAZADO EXACTO DE TU GALERÍA REAL DE CAPTURAS
+// MAPEO EXCLUSIVO Y DIRIGIDO DE TU GALERÍA REAL DE CAPTURAS
 const MODULES = {
   inicio: {
-    title: "01. Portada y Topología",
-    badge: "INFRAESTRUCTURA",
+    title: "01. Portada",
+    badge: "TOPOLOGÍA",
     color: "blue",
-    rawContent: intro,
     gallery: [
-      { file: "Terminos  y condiciones.png", desc: "Verificación de la carga inicial del entorno virtualizado en VirtualBox." }
+      { file: "Terminos  y condiciones.png", desc: "Aprovisionamiento de hardware y configuración del entorno base en Oracle VirtualBox." }
     ]
   },
   licencias: {
-    title: "02. Licenciamiento y Software Libre",
-    badge: "AUDITORÍA",
+    title: "02. Licencias",
+    badge: "SOFTWARE LIBRE",
     color: "purple",
-    rawContent: licenses,
     gallery: [
-      { file: "02_licencias.png", desc: "Análisis y lectura de las directivas de licenciamiento GNU/GPL." },
-      { file: "licenses.png", desc: "Validación de los términos legales de uso comercial del servidor." }
+      { file: "02_licencias.png", desc: "Hardening conceptual sobre directivas Copyleft y GNU/GPL." },
+      { file: "licenses.png", desc: "Validación de cumplimiento de términos legales comerciales." }
     ]
   },
   instalacion: {
-    title: "03. Configuración de Red e IP",
-    badge: "HARDENING",
+    title: "03. Red e IP",
+    badge: "CONFIG CLI",
     color: "emerald",
-    rawContent: installation,
     gallery: [
-      { file: "Host name.png", desc: "Comando sudo hostnamectl aplicado para definir el nodo srv-wiki." },
-      { file: "03_ip_a.png", desc: "Salida del comando 'ip a' auditando la interfaz de red direccionada por NAT." },
-      { file: "apt_update.png", desc: "Ejecución de sincronización de repositorios de seguridad APT." },
-      { file: "sudo_apt_update_upgrade.png", desc: "Actualización global de paquetes críticos del sistema operativo." }
+      { file: "Host name.png", desc: "Comando administrativo hostnamectl asignando el nodo srv-wiki." },
+      { file: "03_ip_a.png", desc: "Auditoría de direccionamiento IP sobre la interfaz NAT." },
+      { file: "apt_update.png", desc: "Sincronización core de llaves de seguridad y repositorios APT." },
+      { file: "sudo_apt_update_upgrade.png", desc: "Mantención global del árbol de paquetes del sistema." }
     ]
   },
   permisos: {
-    title: "04. Control de Accesos y Permisos",
-    badge: "SEGURIDAD LOCAL",
+    title: "04. Permisos",
+    badge: "SEGURIDAD",
     color: "amber",
-    rawContent: permissions,
     gallery: [
-      { file: "04_permisos.png", desc: "Auditoría de máscaras chmod octales y asignación de propietarios con chown." },
-      { file: "Ls_completo.png", desc: "Estructura completa del listado de directorios con atributos de seguridad de usuario." },
-      { file: "ls-l.png", desc: "Verificación en consola de bits de lectura, escritura y ejecución por bloque." }
+      { file: "04_permisos.png", desc: "Manejo de máscaras octales chmod y reasignación chown." },
+      { file: "Ls_completo.png", desc: "Inspección de directivas extendidas del sistema de archivos." },
+      { file: "ls-l.png", desc: "Validación en bloque de bits de control local." }
     ]
   },
   paquetes: {
-    title: "05. Gestión de Paquetes (APT)",
-    badge: "MONITORIZACIÓN",
+    title: "05. APT Pack",
+    badge: "FACTIBILIDAD",
     color: "indigo",
-    rawContent: packages,
     gallery: [
-      { file: "apt install.png", desc: "Instalación automatizada de la herramienta de diagnóstico htop." },
-      { file: "apt_show_htop.png", desc: "Inspección de metadatos, peso y árbol de dependencias antes del despliegue." },
-      { file: "05_apt.png", desc: "Consola de htop activa verificando el uso de CPU y memoria de los hilos de Linux." },
-      { file: "apt_show_htop.png", desc: "Validación del origen del paquete en los repositorios oficiales de Ubuntu." }
+      { file: "apt install.png", desc: "Despliegue e instalación limpia de htop por consola." },
+      { file: "apt_show_htop.png", desc: "Lectura y análisis de dependencias de htop mediante APT." },
+      { file: "05_apt.png", desc: "Consola en tiempo real de htop analizando carga y subprocesos." }
     ]
   },
   nginx: {
-    title: "06. Motor Web Nginx",
-    badge: "PRODUCCIÓN HTTP",
+    title: "06. Nginx Web",
+    badge: "HTTP GLOBAL",
     color: "cyan",
-    rawContent: nginx,
     gallery: [
-      { file: "06_sitio_en_linux.png", desc: "Resultado del despliegue estático servido de forma nativa en el puerto 8080." },
-      { file: "install_nginx.png", desc: "Aprovisionamiento del paquete oficial de nginx mediante el gestor core." },
-      { file: "install_nginx_status.png", desc: "Comando systemctl status nginx ratificando el estado active (running)." },
-      { file: "Openssh_80tcp.png", desc: "Apertura y mapeo del socket TCP en el Firewall para el tráfico web entrante." }
+      { file: "06_sitio_en_linux.png", desc: "Validación del portal compilado y servido en el puerto 8080." },
+      { file: "install_nginx.png", desc: "Descarga e instalación del motor web nativo." },
+      { file: "install_nginx_status.png", desc: "Validación del estado active (running) del daemon web." },
+      { file: "Openssh_80tcp.png", desc: "Hardening de puertos HTTP mediante cortafuegos UFW." }
     ]
   },
   bitacora: {
-    title: "07. Bitácora de Prompts e IA",
-    badge: "RESOLUCIÓN",
+    title: "07. Bitácora",
+    badge: "PROMPTS IA",
     color: "rose",
-    rawContent: prompts,
     gallery: []
   }
 };
 
+function getCleanText(markdown) {
+  return markdown.split("\n")
+    .map(line => line.trim())
+    .filter(line => line && !line.startsWith("#") && !line.startsWith("![") && !line.startsWith("```"));
+}
+
 export default function App() {
-  const [activeKey, setActiveKey] = useState("inicio");
+  const [activeTab, setActiveKey] = useState("inicio");
+  const [selectedImgIdx, setSelectedImgIdx] = useState(0);
   const [zoomImg, setZoomImg] = useState(null);
 
-  const currentModule = MODULES[activeKey];
-
-  // Limpiador básico para simular el renderizado de texto del Markdown sin Regex anidadas
-  const cleanLine = (line) => {
-    if (line.startsWith("#")) return "";
-    if (line.startsWith("![")) return "";
-    return line.replaceAll("**", "").replaceAll("`", "").trim();
-  };
+  const currentModule = MODULES[activeTab];
+  const markdownText = markdownFiles[activeTab] || "";
+  const galleryList = currentModule.gallery;
 
   return (
     <div className="wiki-shell">
-      {/* Header Estilo Consola de Control de Red */}
+      {/* Cabecera Estilo Panel Corporativo */}
       <header className="tech-nav">
         <div className="nav-container">
           <div className="brand-group">
             <div className="pulse-indicator"></div>
             <div>
-              <span className="sub-title">INACAP VALPARAÍSO · TI3V35</span>
-              <h2>CONSOLE MONITOR // INFRAESTRUCTURA LINUX</h2>
+              <span className="sub-title">INACAP VALPARAÍSO // TI3V35</span>
+              <h2>WIKI CONSOLE — ADMINISTRACIÓN LINUX SERVER</h2>
             </div>
           </div>
           <div className="sysadmin-card">
             <span className="user-tag">SYSADMIN: molant</span>
-            <span className="status-tag">STATUS: ONLINE</span>
+            <span className="status-tag">STATUS: OPERATIVO</span>
           </div>
         </div>
       </header>
 
-      {/* Layout de Dos Columnas Dinámicas */}
-      <div className="dashboard-grid">
+      {/* TABS SUPERIORES DE SELECCIÓN DIDÁCTICA (Cambio radical de layout) */}
+      <div className="tabs-container">
+        {Object.entries(MODULES).map(([key, item]) => (
+          <button
+            key={`tab-${key}`}
+            onClick={() => {
+              setActiveKey(key);
+              setSelectedImgIdx(0);
+            }}
+            className={`tab-link tab border-${item.color} ${activeTab === key ? `active-${item.color}` : ""}`}
+          >
+            <span className={`tab-badge bg-${item.color}`}>{item.badge}</span>
+            <span className="tab-title-text">{item.title}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* ÁREA DE TRABAJO EN FORMATO SPLIT-SCREEN COMPUESTO */}
+      <div className="workspace-layout">
         
-        {/* Barra Lateral Interactiva (Botones de Control) */}
-        <aside className="control-panel">
-          <h3 className="panel-title">Módulos de Auditoría</h3>
-          <div className="button-stack">
-            {Object.entries(MODULES).map(([key, item]) => (
-              <button
-                key={key}
-                onClick={() => {
-                  setActiveKey(key);
-                }}
-                className={`tab-trigger ${activeKey === key ? `active-${item.color}` : ""}`}
-              >
-                <div className="trigger-header">
-                  <span className={`badge bg-${item.color}`}>{item.badge}</span>
-                </div>
-                <span className="trigger-title">{item.title}</span>
-              </button>
-            ))}
+        {/* PANEL IZQUIERDO: Contenido Académico */}
+        <section className="workspace-panel left-panel">
+          <div className="panel-header-bar">
+            <span className="file-path-indicator">📄 src/docs_molant/{activeTab}_molant.md</span>
           </div>
-        </aside>
-
-        {/* Monitor de Visualización Central */}
-        <main className="display-monitor">
-          <div className="monitor-header">
-            <span className="terminal-path">/var/log/sysadmin/docs_molant/{activeKey}_molant.md</span>
-            <span className="window-dot"></span>
+          <div className="panel-scroll-body prose-container">
+            <h2 className="main-doc-title">{currentModule.title}</h2>
+            {getCleanText(markdownText).map((line, idx) => {
+              const cleaned = line.replaceAll("**", "").replaceAll("`", "").trim();
+              if (line.startsWith("##")) {
+                return <h3 key={`h2-${idx}`} className="doc-subtitle">{cleaned}</h3>;
+              }
+              if (line.startsWith("###")) {
+                return <h4 key={`h3-${idx}`} className="doc-section-title">{cleaned}</h4>;
+              }
+              return <p key={`p-${idx}`} className="doc-paragraph">{cleaned}</p>;
+            })}
           </div>
+        </section>
 
-          <div className="monitor-body">
-            {/* Texto del Documento */}
-            <div className="document-content">
-              <h2 className="doc-heading">{currentModule.title}</h2>
-              <div className="text-container">
-                {currentModule.rawContent.split("\n").map((line, idx) => {
-                  const cleaned = cleanLine(line);
-                  if (!cleaned) return null;
-                  if (line.trim().startsWith("##")) {
-                    return <h3 key={idx} className="section-subheading">{cleaned}</h3>;
-                  }
-                  return <p key={idx} className="text-paragraph">{cleaned}</p>;
-                })}
-              </div>
-            </div>
-
-            {/* SECCIÓN INTERACTIVA DE GALERÍA DIDÁCTICA CON ZOOM */}
-            {currentModule.gallery.length > 0 && (
-              <div className="interactive-gallery">
-                <h3 className="gallery-section-title">🖼️ Evidencias Gráficas del Módulo (Haz clic para ampliar)</h3>
-                <div className="gallery-layout">
-                  {currentModule.gallery.map((img, idx) => {
-                    const src = imageAssets[img.file];
-                    return (
-                      <div 
-                        key={idx} 
-                        className="screenshot-card"
-                        onClick={() => setZoomImg(src ? { src, desc: img.desc, file: img.file } : null)}
+        {/* PANEL DERECHO: Centro Interactivo de Evidencias Gráficas */}
+        <section className="workspace-panel right-panel">
+          <div className="panel-header-bar">
+            <span className="file-path-indicator">📷 ESTACIÓN DE INSPECCIÓN DE CAPTURAS</span>
+          </div>
+          
+          <div className="panel-scroll-body flex-gallery-container">
+            {galleryList.length > 0 ? (
+              <div className="interactive-gallery-wrapper">
+                {/* Selector Didáctico de Imágenes */}
+                {galleryList.length > 1 && (
+                  <div className="image-selector-strip">
+                    {galleryList.map((img, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setSelectedImgIdx(idx)}
+                        className={`selector-btn ${selectedImgIdx === idx ? "selected" : ""}`}
                       >
-                        <div className="card-top">
-                          <span className="file-name-label">🔍 {img.file}</span>
-                        </div>
-                        {src ? (
-                          <div className="img-wrapper">
-                            <img src={src} alt={img.file} className="thumbnail" />
-                          </div>
-                        ) : (
-                          <div className="missing-file-alert">
-                            <p>⚠️ Archivo ausente en /img_molant:</p>
-                            <code>{img.file}</code>
-                          </div>
-                        )}
-                        <p className="card-description">{img.desc}</p>
+                        Captura {idx + 1}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Contenedor Grande de la Imagen Seleccionada */}
+                <div className="active-photo-display-card">
+                  <div className="photo-info-top">
+                    <span className="photo-filename">📌 Archivo: {galleryList[selectedImgIdx].file}</span>
+                  </div>
+                  
+                  <div 
+                    className="photo-frame"
+                    onClick={() => {
+                      const activeFile = galleryList[selectedImgIdx].file;
+                      setZoomImg({ src: imageAssets[activeFile], file: activeFile, desc: galleryList[selectedImgIdx].desc });
+                    }}
+                  >
+                    {imageAssets[galleryList[selectedImgIdx].file] ? (
+                      <img 
+                        src={imageAssets[galleryList[selectedImgIdx].file]} 
+                        alt="Evidencia" 
+                        className="large-workspace-img"
+                      />
+                    ) : (
+                      <div className="error-placeholder">
+                        <p>⚠️ Archivo ausente en disco:</p>
+                        <code>{galleryList[selectedImgIdx].file}</code>
                       </div>
-                    );
-                  })}
+                    )}
+                    <div className="hover-zoom-overlay">Haz clic sobre la terminal para expandir vista</div>
+                  </div>
+                  
+                  <div className="photo-caption-box">
+                    <p className="photo-desc-text"><strong>Descripción Operativa:</strong> {galleryList[selectedImgIdx].desc}</p>
+                  </div>
                 </div>
+              </div>
+            ) : (
+              <div className="empty-gallery-state">
+                <div className="empty-icon">📁</div>
+                <p className="empty-text">Este hito transversal está centrado en análisis procedimental.</p>
+                <span className="empty-subtext">No requiere la carga de recursos gráficos de verificación.</span>
               </div>
             )}
           </div>
-        </main>
+        </section>
       </div>
 
-      {/* MODAL INTERACTIVO FLOTANTE DE ZOOM (Petición de Máxima Visibilidad) */}
-      {zoomImg && (
+      {/* MODAL INTERACTIVO DE ZOOM FLOTANTE (LIGHTBOX) */}
+      {zoomImg && zoomImg.src && (
         <div className="lightbox-overlay" onClick={() => setZoomImg(null)}>
           <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
             <div className="lightbox-top-bar">
-              <span className="lightbox-title">Visor de Evidencia de Consola: {zoomImg.file}</span>
+              <span className="lightbox-title">Auditoría CLI: {zoomImg.file}</span>
               <button className="close-btn" onClick={() => setZoomImg(null)}>✖ Cerrar</button>
             </div>
-            <img src={zoomImg.src} alt="Evidencia ampliada" className="lightbox-scaled-image" />
+            <div className="lightbox-image-container">
+              <img src={zoomImg.src} alt="Evidencia ampliada" className="lightbox-scaled-image" />
+            </div>
             <div className="lightbox-footer">
               <p>{zoomImg.desc}</p>
             </div>
@@ -237,7 +267,7 @@ export default function App() {
 
       {/* Footer */}
       <footer className="tech-footer">
-        <p>© 2026 INACAP Valparaíso · Escuela de Informática y Telecomunicaciones · Proyecto de Evidencias Integradas.</p>
+        <p>© 2026 INACAP Valparaíso · Escuela de Informática y Telecomunicaciones · Administración de Sistemas Linux.</p>
       </footer>
     </div>
   );
