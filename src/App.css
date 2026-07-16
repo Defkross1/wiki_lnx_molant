@@ -1,42 +1,35 @@
-/* Paleta de Colores Vivos Didácticos */
-.bg-blue { background-color: #2563eb; }
-.bg-purple { background-color: #9333ea; }
-.bg-emerald { background-color: #10b981; }
-.bg-amber { background-color: #f59e0b; }
-.bg-indigo { background-color: #6366f1; }
-.bg-cyan { background-color: #06b6d4; }
-.bg-rose { background-color: #f43f5e; }
+/* Paleta de Colores Didácticos Nativos */
+.text-emerald { color: #10b981; }
+.fill-emerald { background-color: #10b981; }
+.fill-slate { background-color: #64748b; }
 
-.border-blue.active-blue { border-bottom-color: #2563eb; background: #ffffff; color: #2563eb; }
-.border-purple.active-purple { border-bottom-color: #9333ea; background: #ffffff; color: #9333ea; }
-.border-emerald.active-emerald { border-bottom-color: #10b981; background: #ffffff; color: #10b981; }
-.border-amber.active-amber { border-bottom-color: #f59e0b; background: #ffffff; color: #f59e0b; }
-.border-indigo.active-indigo { border-b-color: #6366f1; background: #ffffff; color: #6366f1; }
-.border-cyan.active-cyan { border-b-color: #06b6d4; background: #ffffff; color: #06b6d4; }
-.border-rose.active-rose { border-b-color: #f43f5e; background: #ffffff; color: #f43f5e; }
+.active-blue { border-left: 4px solid #2563eb !build; background-color: #f1f5f9; }
+.active-purple { border-left: 4px solid #9333ea; background-color: #f1f5f9; }
+.active-emerald { border-left: 4px solid #10b981; background-color: #f1f5f9; }
+.active-amber { border-left: 4px solid #f59e0b; background-color: #f1f5f9; }
+.active-indigo { border-left: 4px solid #6366f1; background-color: #f1f5f9; }
+.active-cyan { border-left: 4px solid #06b6d4; background-color: #f1f5f9; }
+.active-rose { border-left: 4px solid #f43f5e; background-color: #f1f5f9; }
 
-/* Estructura Base y Color de Fondo Acero */
+/* Contenedor Base */
 .wiki-shell {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #cbd5e1;
+  background-color: #94a3b8; /* Fondo Industrial Azul Acero Calidad */
   color: #1e293b;
-  font-family: system-ui, -apple-system, sans-serif;
-  overflow: hidden;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, sans-serif;
 }
 
-/* Navbar de la Consola */
+/* Nav Bar Minimalista Integrada */
 .tech-nav {
   background-color: #0f172a;
   color: #ffffff;
-  padding: 0.75rem 1.5rem;
-  border-bottom: 1px solid #1e293b;
+  padding: 0.6rem 1.5rem;
+  border-bottom: 2px solid #1e293b;
 }
 
 .nav-container {
-  max-width: 100%;
-  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -44,149 +37,130 @@
 
 .brand-group { display: flex; align-items: center; gap: 0.75rem; }
 .pulse-indicator { width: 8px; height: 8px; background-color: #22c55e; border-radius: 50%; }
-.sub-title { font-size: 9px; font-weight: 700; color: #64748b; letter-spacing: 0.05em; }
-.tech-nav h2 { font-size: 13px; font-weight: 700; margin: 0; color: #e2e8f0; }
-.sysadmin-card { display: flex; gap: 0.75rem; font-family: monospace; font-size: 11px; }
-.user-tag { color: #38bdf8; font-weight: bold; }
-.status-tag { color: #4ade80; font-weight: bold; }
+.sub-title { font-size: 9px; font-weight: 700; color: #64748b; }
+.tech-nav h2 { font-size: 12px; font-weight: 700; margin: 0; color: #e2e8f0; }
+.sysadmin-card { display: flex; gap: 0.75rem; font-size: 11px; }
 
-/* Pestañas de Selección Superior */
-.tabs-container {
-  display: flex;
-  background-color: #1e293b;
-  padding: 0.5rem 1rem 0;
-  gap: 0.35rem;
-  overflow-x: auto;
-}
-
-.tab-link {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.6rem 1rem;
-  font-size: 13px;
-  font-weight: 700;
-  color: #94a3b8;
-  background-color: #0f172a;
-  border: 1px solid #1e293b;
-  border-bottom: 3px solid transparent;
-  border-radius: 6px 6px 0 0;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-}
-
-.tab-link:hover { background-color: #1e293b; color: #f1f5f9; }
-.tab-text-group { display: flex; flex-direction: column; text-align: left; }
-.tab-title-text { font-size: 12px; font-weight: 700; }
-.tab-badge { font-size: 8px; font-weight: 800; padding: 0.05rem 0.25rem; border-radius: 3px; width: fit-content; margin-top: 0.15rem; color: white; }
-.linux-icon { font-size: 16px; }
-
-/* Configuración de Workspace */
+/* Distribución Multipanel Workspace */
 .workspace-layout {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 260px 1fr 1fr; /* Tres Paneles de Alta Visibilidad */
   background-color: #cbd5e1;
   overflow: hidden;
-  border-top: 1px solid #94a3b8;
 }
 
 .workspace-panel { display: flex; flex-direction: column; background: #ffffff; overflow: hidden; }
 .left-panel { border-right: 1px solid #cbd5e1; }
 .panel-header-bar { background-color: #f1f5f9; border-bottom: 1px solid #cbd5e1; padding: 0.5rem 1.25rem; }
-.file-path-indicator { font-family: monospace; font-size: 11px; color: #64748b; font-weight: 600; }
-.panel-scroll-body { flex: 1; padding: 2.25rem; overflow-y: auto; }
+.file-path-indicator { font-size: 11px; color: #475569; font-weight: 700; }
+.panel-scroll-body { flex: 1; padding: 1.75rem; overflow-y: auto; }
 
-/* OPTIMIZACIÓN DE ALTO CONTRASTE Y LECTURA CÓMODA */
-.main-doc-title { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 1.25rem; tracking: -0.01em; }
-.doc-subtitle { font-size: 15px; font-weight: 800; color: #0f172a; margin: 1.75rem 0 0.75rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.02em; }
-.doc-paragraph { font-size: 15px; line-height: 1.75; color: #1e293b; margin-bottom: 1.15rem; text-align: justify; font-family: sans-serif; }
-.article-list { padding-left: 1.5rem; margin-bottom: 1.25rem; list-style-type: disc; }
-.article-list li { margin-bottom: 0.5rem; font-size: 15px; color: #1e293b; line-height: 1.7; font-family: sans-serif; }
-
-/* --- SECCIÓN INTERACTIVA DE LA NUEVA MATRIZ DE FACTIBILIDAD --- */
-.factibility-interactive-container {
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
-  border-radius: 10px;
-  padding: 1.25rem;
-  margin: 1.5rem 0 2rem;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+/* Barra Lateral TTY */
+.control-panel {
+  background-color: #1e293b;
+  border-right: 1px solid #0f172a;
+  display: flex;
+  flex-direction: column;
 }
 
-.table-header-meta { margin-bottom: 1rem; }
-.table-terminal-prompt { font-family: monospace; font-size: 11px; color: #0284c7; font-weight: bold; block; }
-.table-instruction-text { font-size: 12px; color: #64748b; margin-top: 0.25rem; }
+.sidebar-header {
+  background-color: #0f172a;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-.table-responsive-wrapper { overflow-x: auto; }
-.custom-interactive-table { width: 100%; border-collapse: separate; border-spacing: 0; text-align: left; font-size: 13px; }
-.custom-interactive-table th { background: #f1f5f9; color: #475569; font-weight: 700; padding: 0.85rem 1rem; border-bottom: 2px solid #cbd5e1; text-transform: uppercase; font-size: 11px; }
-.custom-interactive-table td { padding: 0.95rem 1rem; border-bottom: 1px solid #e2e8f0; background: #ffffff; transition: background-color 0.15s; }
+.terminal-prompt { font-size: 11px; color: #4ade80; font-weight: bold; }
+.window-controls { display: flex; gap: 4px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+.dot-red { background-color: #ef4444; }
+.dot-yellow { background-color: #f59e0b; }
+.dot-green { background-color: #10b981; }
 
-/* Efectos de Fila Interactivos */
-.row-hovered td { background-color: #f8fafc; }
-.row-chosen { border-left: 4px solid #10b981; }
-.cell-bold-title { font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 0.5rem; }
-.bullet-indicator { width: 6px; height: 6px; border-radius: 50%; background-color: #94a3b8; display: inline-block; }
-.row-chosen .bullet-indicator { background-color: #10b981; }
+.sidebar-meta { padding: 1rem; border-bottom: 1px solid #334155; color: #94a3b8; font-size: 11px; }
+.admin-title { margin: 0; font-weight: bold; }
+.admin-sub { margin: 0.2rem 0 0; color: #64748b; }
 
-/* Elementos de Progreso de Pesos */
-.progress-cell-wrapper { display: flex; flex-direction: column; gap: 0.3rem; }
-.progress-value-label { font-weight: 600; color: #334155; font-size: 12px; }
-.progress-track-bg { width: 100%; height: 5px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
-.progress-bar-fill { height: 100%; border-radius: 3px; }
-.progress-bar-fill.fill-emerald { background-color: #10b981; }
-.progress-bar-fill.fill-slate { background-color: #64748b; }
+.button-stack { padding: 0.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+.tab-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  border: none;
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 100%;
+}
 
-/* Estados de Atributos */
-.status-pill { font-size: 11px; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid transparent; }
-.pill-emerald { background-color: #f0fdf4; color: #166534; border-color: #bbf7d0; }
-.pill-blue { background-color: #f0f9ff; color: #0369a1; border-color: #bae6fd; }
-.pill-slate { background-color: #f8fafc; color: #475569; border-color: #e2e8f0; }
+.tab-link:hover { background-color: rgba(255,255,255,0.03); }
+.tab-link[class*="active-"] { background-color: #f1f5f9; }
+.linux-icon { font-size: 16px; }
+.tab-text-group { display: flex; flex-direction: column; }
+.tab-title-main { font-size: 11.5px; font-weight: 700; color: #cbd5e1; }
+.tab-link[class*="active-"] .tab-title-main { color: #0f172a; }
+.tab-sub-badge { font-size: 9px; color: #64748b; font-weight: bold; }
 
-.action-badge { font-size: 11px; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 6px; text-transform: uppercase; }
-.badge-success { background-color: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
-.badge-warning { background-color: #fffbeb; color: #b45309; border: 1px solid #fef3c7; }
+/* Contenido de Texto */
+.main-doc-title { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 1rem; }
+.doc-subtitle { font-size: 13px; font-weight: 700; color: #0f172a; margin: 1.25rem 0 0.5rem; border-b: 1px solid #e2e8f0; padding-bottom: 0.2rem; }
+.doc-section-title { font-size: 12px; font-weight: 600; color: #475569; margin-top: 1rem; }
+.doc-paragraph { font-size: 13px; line-height: 1.6; color: #334155; margin-bottom: 0.75rem; font-family: sans-serif; }
 
-/* Terminales de Comandos Linux */
-.prose-container pre { background: #0f172a; color: #f1f5f9; padding: 1.25rem; border-radius: 8px; font-family: monospace; font-size: 13px; overflow-x: auto; margin: 1.25rem 0; border: 1px solid #334155; }
-.prose-container code { font-family: monospace; background: #f1f5f9; color: #b91c1c; padding: 0.15rem 0.35rem; border-radius: 4px; font-size: 0.9em; border: 1px solid #e2e8f0; }
-.prose-container pre code { background: transparent; color: inherit; padding: 0; border: none; font-size: inherit; }
+/* NUEVA INTERFAZ DE MÉTRICAS DE PAQUETES (MÓDULO 05) */
+.didactic-table-view { background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 1rem; margin-bottom: 1rem; }
+.comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; }
+.metric-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem; position: relative; }
+.metric-card.selected { border-color: #10b981; }
+.card-badge { font-size: 8px; font-weight: 800; padding: 0.1rem 0.3rem; border-radius: 4px; width: fit-content; margin-bottom: 0.5rem; }
+.card-badge.success { background-color: #dcfce7; color: #15803d; }
+.card-badge.gray { background-color: #f1f5f9; color: #475569; }
+.card-tool-title { font-size: 14px; font-weight: 800; margin-bottom: 0.5rem; }
+.progress-group { margin-bottom: 0.5rem; font-size: 11px; }
+.progress-group label { color: #64748b; font-weight: 600; display: block; margin-bottom: 0.2rem; }
+.progress-bar-bg { width: 100%; height: 4px; background-color: #e2e8f0; border-radius: 2px; overflow: hidden; }
+.progress-bar-fill { height: 100%; border-radius: 2px; }
+.metric-stat { font-size: 11px; margin: 0.2rem 0; color: #475569; }
+.factibility-tag { font-size: 9px; font-weight: 800; text-center: center; margin-top: 0.75rem; padding: 0.25rem; border-radius: 4px; }
+.factibility-tag.high { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; text-align: center; }
+.factibility-tag.limited { background-color: #fffbeb; color: #b45309; border: 1px solid #fef3c7; text-align: center; }
 
 /* Estación de Capturas */
 .flex-gallery-container { background-color: #f8fafc; }
 .image-selector-strip { display: flex; gap: 0.25rem; margin-bottom: 1rem; background: #ffffff; padding: 0.4rem; border-radius: 6px; border: 1px solid #cbd5e1; }
-.selector-btn { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 0.35rem 0.75rem; font-size: 11px; font-weight: 700; color: #475569; border-radius: 4px; cursor: pointer; }
+.selector-btn { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 0.3rem 0.6rem; font-size: 10px; font-weight: 700; color: #475569; border-radius: 4px; cursor: pointer; }
 .selector-btn.selected { background: #2563eb; color: white; border-color: #2563eb; }
-.active-photo-display-card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
-.photo-info-top { font-family: monospace; font-size: 11px; font-weight: 700; color: #334155; }
-.photo-frame { width: 100%; border-radius: 6px; overflow: hidden; border: 1px solid #cbd5e1; position: relative; background: #000000; cursor: zoom-in; }
-.large-workspace-img { width: 100%; height: auto; display: block; transition: opacity 0.2s; }
-.photo-frame:hover .large-workspace-img { opacity: 0.85; }
-.hover-zoom-overlay { position: absolute; bottom: 10px; right: 10px; background: rgba(15, 23, 42, 0.85); color: white; font-size: 10px; padding: 0.25rem 0.5rem; border-radius: 4px; pointer-events: none; }
-.photo-caption-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.75rem; border-radius: 6px; }
-.photo-desc-text { font-size: 12.5px; color: #475569; line-height: 1.45; font-family: sans-serif; }
-.error-placeholder { padding: 3rem; text-align: center; color: #9f1239; }
-.empty-gallery-state { margin: auto; text-align: center; display: flex; flex-direction: column; align-items: center; }
-.empty-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-.empty-text { font-size: 13px; font-weight: 700; color: #475569; }
-.empty-subtext { font-size: 11px; color: #94a3b8; }
+.active-photo-display-card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.photo-info-top { font-size: 10px; font-weight: 700; color: #64748b; }
+.photo-frame { width: 100%; border-radius: 4px; overflow: hidden; border: 1px solid #cbd5e1; position: relative; background: #000000; cursor: zoom-in; }
+.large-workspace-img { width: 100%; height: auto; display: block; }
+.hover-zoom-overlay { position: absolute; bottom: 8px; right: 8px; background: rgba(15, 23, 42, 0.8); color: white; font-size: 9px; padding: 0.2rem 0.4rem; border-radius: 3px; }
+.photo-caption-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.6rem; border-radius: 4px; }
+.photo-desc-text { font-size: 11.5px; color: #475569; line-height: 1.4; font-family: sans-serif; }
+.error-placeholder { padding: 2rem; text-align: center; color: #9f1239; font-size: 12px; }
+.empty-gallery-state { margin: auto; text-align: center; display: flex; flex-direction: column; align-items: center; color: #94a3b8; }
+.empty-icon { font-size: 1.5rem; }
+.empty-text { font-size: 12px; font-weight: 700; color: #475569; }
+.empty-subtext { font-size: 10px; }
 
-/* Lightbox de Pantalla Completa */
-.lightbox-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(15, 23, 42, 0.9); display: flex; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(4px); }
-.lightbox-content { background: #ffffff; border-radius: 8px; max-width: 95vw; width: 100%; max-height: 95vh; display: flex; flex-direction: column; overflow: hidden; }
-.lightbox-top-bar { background: #f1f5f9; border-bottom: 1px solid #cbd5e1; padding: 0.6rem 1.25rem; display: flex; justify-content: space-between; align-items: center; }
-.lightbox-title { font-size: 11px; font-family: monospace; font-weight: bold; color: #334155; }
-.close-btn { background: #ef4444; color: white; border: none; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
-.close-btn:hover { background: #dc2626; }
+/* Modal de Zoom */
+.lightbox-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(15, 23, 42, 0.9); display: flex; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(2px); }
+.lightbox-content { background: #ffffff; border-radius: 6px; max-width: 95vw; width: 100%; max-height: 95vh; display: flex; flex-direction: column; overflow: hidden; }
+.lightbox-top-bar { background: #f1f5f9; border-bottom: 1px solid #cbd5e1; padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+.lightbox-title { font-size: 11px; font-weight: bold; color: #334155; }
+.close-btn { background: #ef4444; color: white; border: none; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 10px; font-weight: bold; cursor: pointer; }
 .lightbox-image-container { background-color: #000000; overflow: auto; display: flex; justify-content: center; align-items: center; flex: 1; }
 .lightbox-scaled-image { max-width: 100%; max-height: 75vh; object-fit: contain; width: 100%; display: block; }
-.lightbox-footer { padding: 0.75rem 1.25rem; background: #f8fafc; border-t: 1px solid #e2e8f0; font-size: 13px; color: #475569; text-align: center; font-family: sans-serif; }
+.lightbox-footer { padding: 0.6rem 1rem; background: #f8fafc; border-t: 1px solid #e2e8f0; font-size: 12px; color: #475569; text-align: center; font-family: sans-serif; }
 
 /* Footer */
-.tech-footer { background: #ffffff; border-t: 1px solid #cbd5e1; padding: 0.65rem; text-align: center; font-size: 11px; color: #64748b; font-weight: 600; }
+.tech-footer { background: #ffffff; border-t: 1px solid #cbd5e1; padding: 0.5rem; text-align: center; font-size: 11px; color: #475569; font-weight: bold; }
 
 @media (max-width: 1024px) {
   .workspace-layout { grid-template-columns: 1fr; }
+  .comparison-grid { grid-template-columns: 1fr; }
 }

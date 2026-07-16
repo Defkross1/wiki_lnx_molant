@@ -1,7 +1,7 @@
 import { createElement, useState } from "react";
 import "./App.css";
 
-// Importación directa de la documentación técnica real[cite: 1]
+// Importación directa de la documentación técnica real
 import intro from "./docs_molant/01_inicio_molant.md?raw";
 import licenses from "./docs_molant/02_licencias_molant.md?raw";
 import installation from "./docs_molant/03_instalacion_molant.md?raw";
@@ -36,7 +36,7 @@ const imageAssets = Object.entries(imageFiles).reduce((map, [path, src]) => {
   return map;
 }, {});
 
-// MAPEO Y DISTRIBUCIÓN DIRIGIDA DE TU GALERÍA REAL DE CAPTURAS
+// ESTRUCTURACIÓN Y ENLAZADO EXACTO DE TU GALERÍA REAL DE CAPTURAS
 const MODULES = {
   inicio: { title: "01. Portada", badge: "SYS-INIT", icon: "🐧", color: "blue", gallery: [{ file: "Terminos  y condiciones.png", desc: "Aprovisionamiento de hardware y entorno de virtualización en VirtualBox." }] },
   licencias: { title: "02. Licencias", badge: "LEGAL", icon: "⚖️", color: "purple", gallery: [{ file: "02_licencias.png", desc: "Hardening conceptual sobre directivas Copyleft y GNU/GPL." }, { file: "licenses.png", desc: "Validación de cumplimiento de términos legales comerciales." }] },
@@ -50,212 +50,8 @@ const MODULES = {
 function getCleanText(markdown) {
   return markdown.split("\n")
     .map(line => line.trim())
-    .filter(line => line && !line.startsWith("#") && !line.startsWith("![") && !line.startsWith("```") && !line.startsWith("|"));
+    .filter(line => line && !line.startsWith("#") && !line.startsWith("![") && !line.startsWith("```"));
 }
-
-// COMPONENTE INTERACTIVO DIDÁCTICO DE TABLA DE FACTIBILIDAD (Reemplazo Total de la Foto)
-function FactibilityTable() {
-  const [hoveredRow, setHoveredRow] = useState(null);
-
-  const data = [
-    { name: "htop", weight: "Muy Bajo (~150KB)", deps: "Ninguna (Stand-alone)", support: "Repositorio Main (Total)", status: "Alta (Elegido)", chosen: true },
-    { name: "top", weight: "Preinstalado", deps: "Nativo del kernel", support: "Nativo", status: "Alta pero limitado", chosen: false }
-  ];
-
-  return (
-    <div className="factibility-interactive-container animate-fade">
-      <div className="table-header-meta">
-        <span className="table-terminal-prompt">admin@srv-wiki:~$ cat factibility_matrix.db</span>
-        <p className="table-instruction-text">Pasa el cursor sobre las herramientas para analizar el diagnóstico de factibilidad tecnológica:</p>
-      </div>
-
-      <div className="table-responsive-wrapper">
-        <table className="custom-interactive-table">
-          <thead>
-            <tr>
-              <th>Herramienta</th>
-              <th>Peso</th>
-              <th>Dependencias</th>
-              <th>Soporte Oficial</th>
-              <th>Factibilidad</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, idx) => (
-              <tr 
-                key={idx}
-                onMouseEnter={() => setHoveredRow(idx)}
-                onMouseLeave={() => setHoveredRow(null)}
-                className={`${row.chosen ? "row-chosen" : "row-standard"} ${hoveredRow === idx ? "row-hovered" : ""}`}
-              >
-                <td className="cell-bold-title">
-                  <span className="bullet-indicator"></span> {row.name}
-                </td>
-                <td>
-                  <div className="progress-cell-wrapper">
-                    <span className="progress-value-label">{row.weight}</span>
-                    <div className="progress-track-bg">
-                      <div className={`progress-bar-fill ${row.chosen ? "fill-emerald" : "fill-slate"}`} style={{ width: row.chosen ? "35%" : "10%" }}></div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <span className={`status-pill ${row.chosen ? "pill-emerald" : "pill-slate"}`}>{row.deps}</span>
-                </td>
-                <td>
-                  <span className={`status-pill ${row.chosen ? "pill-blue" : "pill-slate"}`}>{row.support}</span>
-                </td>
-                <td>
-                  <span className={`action-badge ${row.chosen ? "badge-success" : "badge-warning"}`}>{row.status}</span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
-function renderMarkdown(markdown, assetMap, docId, activeTab) {
-  const blocks = [];
-  const lines = markdown.split(/\r?\n/);
-  let paragraphLines = [];
-  let listItems = [];
-  let inCodeBlock = false;
-  let codeLines = [];
-
-  const flushParagraph = (lineId) => {
-    if (paragraphLines.length) {
-      const contentText = paragraphLines.join(" ").trim();
-      blocks.push(
-        <p key={`p-${docId}-${lineId}`} className="article-paragraph">
-          {renderInline(contentText, assetMap, `${docId}-${lineId}`)}
-        </p>,
-      );
-      paragraphLines = [];
-    }
-  };
-
-  const flushList = (lineId) => {
-    if (listItems.length) {
-      blocks.push(
-        <ul key={`ul-${docId}-${lineId}`} className="article-list">
-          {listItems}
-        </ul>,
-      );
-      listItems = [];
-    }
-  };
-
-  lines.forEach((line, index) => {
-    const trimmed = line.trim();
-
-    if (trimmed.startsWith("```")) {
-      if (inCodeBlock) {
-        inCodeBlock = false;
-        blocks.push(
-          <pre key={`codeblock-${docId}-${index}`}>
-            <code>{codeLines.join("\n")}</code>
-          </pre>
-        );
-        codeLines = [];
-      } else {
-        flushParagraph(index);
-        flushList(index);
-        inCodeBlock = true;
-      }
-      return;
-    }
-
-    if (inCodeBlock) {
-      codeLines.push(line);
-      return;
-    }
-
-    // Saltar el procesamiento plano de la tabla del Markdown viejo
-    if (trimmed.startsWith("|")) {
-      return;
-    }
-
-    if (!trimmed) {
-      flushParagraph(index);
-      flushList(index);
-      return;
-    }
-
-    if (trimmed.startsWith("#")) {
-      flushParagraph(index);
-      flushList(index);
-      
-      let level = 1;
-      if (trimmed.startsWith("### ")) level = 3;
-      else if (trimmed.startsWith("## ")) level = 2;
-      
-      const content = trimmed.replace(/^#+\s+/, "");
-      const headingTag = `h${Math.min(level + 1, 3)}`;
-      
-      blocks.push(
-        createElement(
-          headingTag,
-          { key: `h-${docId}-${index}` },
-          renderInline(content, assetMap, `${docId}-${index}`),
-        ),
-      );
-      
-      // Inyectar de manera exacta la tabla didáctica interactiva justo debajo del encabezado correspondiente
-      if (activeTab === "paquetes" && trimmed.includes("Tabla de Factibilidad")) {
-        blocks.push(<FactibilityTable key="interactive-factibility-table" />);
-      }
-      return;
-    }
-
-    if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
-      flushParagraph(index);
-      const content = trimmed.slice(2);
-      listItems.push(
-        <li key={`li-${docId}-${index}`}>
-          {renderInline(content, assetMap, `${docId}-${index}`)}
-        </li>,
-      );
-      return;
-    }
-
-    paragraphLines.push(trimmed);
-  });
-
-  flushParagraph(lines.length);
-  flushList(lines.length);
-
-  return blocks;
-}
-
-function renderInline(text, assetMap, textKey) {
-  if (!text) return [];
-  const codeParts = text.split("`");
-  return codeParts.flatMap((codeChunk, codeIdx) => {
-    if (codeIdx % 2 !== 0) {
-      return [<code key={`code-${textKey}-${codeIdx}`}>{codeChunk}</code>];
-    }
-    const boldParts = codeChunk.split("**");
-    return boldParts.flatMap((boldChunk, boldIdx) => {
-      if (boldIdx % 2 !== 0) {
-        return [<strong key={`bold-${textKey}-${codeIdx}-${boldIdx}`}>{boldChunk}</strong>];
-      }
-      return [boldChunk];
-    });
-  });
-}
-
-const docs = Object.entries(markdownFiles)
-  .map(([key, content]) => {
-    return {
-      id: key,
-      title: getTitle(content),
-      summary: getSummary(content),
-      content,
-    };
-  });
 
 export default function App() {
   const [activeTab, setActiveKey] = useState("inicio");
@@ -263,65 +59,104 @@ export default function App() {
   const [zoomImg, setZoomImg] = useState(null);
 
   const currentModule = MODULES[activeTab];
-  const selectedDoc = docs.find((doc) => doc.id === activeTab);
+  const markdownText = markdownFiles[activeTab] || "";
   const galleryList = currentModule.gallery;
 
   return (
     <div className="wiki-shell">
-      {/* Cabecera Estilo Terminal Multipanel Linux */}
-      <header className="tech-nav">
-        <div className="nav-container">
-          <div className="brand-group">
-            <div className="pulse-indicator"></div>
-            <div>
-              <span className="sub-title">INACAP VALPARAÍSO // EVALUACIÓN DE COMPETENCIAS</span>
-              <h2>ESTACIÓN DE CONTROL — AUDITORÍA DE INFRAESTRUCTURA</h2>
-            </div>
-          </div>
-          <div className="sysadmin-card">
-            <span className="user-tag">SYSADMIN: molant</span>
-            <span className="status-tag">STATUS: OPERATIVO</span>
-          </div>
-        </div>
-      </header>
-
-      {/* TABS SUPERIORES DE SELECCIÓN DIDÁCTICA */}
-      <div className="tabs-container">
-        {Object.entries(MODULES).map(([key, item]) => (
-          <button
-            key={`tab-${key}`}
-            onClick={() => {
-              setActiveKey(key);
-              setSelectedImgIdx(0);
-            }}
-            className={`tab-link tab border-${item.color} ${activeTab === key ? `active-${item.color}` : ""}`}
-          >
-            <span className="linux-icon">{item.icon}</span>
-            <div className="tab-text-group">
-              <span className="tab-title-text">{item.title}</span>
-              <span className={`tab-badge bg-${item.color}`}>{item.badge}</span>
-            </div>
-          </button>
-        ))}
-      </div>
-
-      {/* ÁREA DE TRABAJO SPLIT-SCREEN */}
+      {/* DISEÑO CENTRALIZADO MULTIPANEL */}
       <div className="workspace-layout">
         
-        {/* PANEL IZQUIERDO: Contenido Escrito Formal (Lectura Optimizada de Alto Contraste) */}
+        {/* PANEL IZQUIERDO: Índice Técnico con Símbolos de Linux */}
+        <aside className="control-panel">
+          <div className="sidebar-header">
+            <span className="terminal-prompt">root@srv-wiki:~#</span>
+            <div className="window-controls">
+              <span className="dot dot-red"></span>
+              <span className="dot dot-yellow"></span>
+              <span className="dot dot-green"></span>
+            </div>
+          </div>
+          <div className="sidebar-meta">
+            <p className="admin-title">👤 ADMIN: <span className="text-emerald">molant</span></p>
+            <p className="admin-sub">🐧 OS: Ubuntu 24.04 LTS</p>
+          </div>
+          <nav className="button-stack">
+            {Object.entries(MODULES).map(([key, item]) => (
+              <button
+                key={`nav-${key}`}
+                onClick={() => {
+                  setActiveKey(key);
+                  setSelectedImgIdx(0);
+                }}
+                className={`tab-link ${activeTab === key ? `active-${item.color}` : ""}`}
+              >
+                <span className="linux-icon">{item.icon}</span>
+                <div className="tab-text-group">
+                  <span className="tab-title-main">{item.title}</span>
+                  <span className="tab-sub-badge">{item.badge}</span>
+                </div>
+              </button>
+            ))}
+          </nav>
+        </aside>
+
+        {/* PANEL CENTRAL: Contenido Académico Formal */}
         <section className="workspace-panel left-panel">
           <div className="panel-header-bar">
-            <span className="file-path-indicator">📄 src/docs_molant/{activeTab}_molant.md</span>
+            <span className="file-path-indicator">📁 cat /var/log/docs_molant/{activeTab}_molant.md</span>
           </div>
           <div className="panel-scroll-body prose-container">
-            {selectedDoc ? renderMarkdown(selectedDoc.content, imageAssets, selectedDoc.id, activeTab) : null}
+            <h2 className="main-doc-title">{currentModule.title}</h2>
+            
+            {/* VISTA TOTALMENTE INTERACTIVA PARA LA TABLA DE FACTIBILIDAD (MÓDULO 05) */}
+            {activeTab === "paquetes" && (
+              <div className="didactic-table-view animate-fade">
+                <h3 className="doc-subtitle">📊 Matriz de Factibilidad Técnica</h3>
+                <div className="comparison-grid">
+                  <div className="metric-card selected">
+                    <div className="card-badge success">MÉTRICA ÓPTIMA</div>
+                    <h4 className="card-tool-title">📦 htop</h4>
+                    <div className="progress-group">
+                      <label>Peso en Disco (Muy Bajo ~150KB):</label>
+                      <div className="progress-bar-bg"><div className="progress-bar-fill fill-emerald" style={{width: "25%"}}></div></div>
+                    </div>
+                    <p className="metric-stat"><strong>Dependencias:</strong> Ninguna (Stand-alone)</p>
+                    <p className="metric-stat"><strong>Soporte:</strong> Repositorio Main (Total)</p>
+                    <div className="factibility-tag high">ALTA FACTIBILIDAD (ELEGIDO)</div>
+                  </div>
+                  <div className="metric-card passive">
+                    <div className="card-badge gray">MÉTRICA BASE</div>
+                    <h4 className="card-tool-title">📦 top</h4>
+                    <div className="progress-group">
+                      <label>Peso en Disco (Preinstalado):</label>
+                      <div className="progress-bar-bg"><div className="progress-bar-fill fill-slate" style={{width: "5%"}}></div></div>
+                    </div>
+                    <p className="metric-stat"><strong>Dependencias:</strong> Nativo del kernel</p>
+                    <p className="metric-stat"><strong>Soporte:</strong> Nativo</p>
+                    <div className="factibility-tag limited">ALTA PERO LIMITADO</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {getCleanText(markdownText).map((line, idx) => {
+              const cleaned = line.replaceAll("**", "").replaceAll("`", "").trim();
+              if (line.startsWith("##")) {
+                return <h3 key={`h2-${idx}`} className="doc-subtitle">{cleaned}</h3>;
+              }
+              if (line.startsWith("###")) {
+                return <h4 key={`h3-${idx}`} className="doc-section-title">{cleaned}</h4>;
+              }
+              return <p key={`p-${idx}`} className="doc-paragraph">{cleaned}</p>;
+            })}
           </div>
         </section>
 
-        {/* PANEL DERECHO: Visor de Capturas de Pantalla con Zoom */}
+        {/* PANEL DERECHO: Centro de Inspección de Capturas */}
         <section className="workspace-panel right-panel">
           <div className="panel-header-bar">
-            <span className="file-path-indicator">📷 ESTACIÓN DE INSPECCIÓN DE CAPTURAS</span>
+            <span className="file-path-indicator">📷 DISPLAY // INSPECTOR DE EVIDENCIAS</span>
           </div>
           
           <div className="panel-scroll-body flex-gallery-container">
@@ -343,7 +178,7 @@ export default function App() {
 
                 <div className="active-photo-display-card">
                   <div className="photo-info-top">
-                    <span className="photo-filename">📌 SNAPSHOT_CLI: {galleryList[selectedImgIdx].file}</span>
+                    <span className="photo-filename">💾 CLI_SNAPSHOT: {galleryList[selectedImgIdx].file}</span>
                   </div>
                   
                   <div 
@@ -356,7 +191,7 @@ export default function App() {
                     {imageAssets[galleryList[selectedImgIdx].file] ? (
                       <img 
                         src={imageAssets[galleryList[selectedImgIdx].file]} 
-                        alt="Evidencia" 
+                        alt="Evidencia de Consola" 
                         className="large-workspace-img"
                       />
                     ) : (
@@ -365,7 +200,7 @@ export default function App() {
                         <code>{galleryList[selectedImgIdx].file}</code>
                       </div>
                     )}
-                    <div className="hover-zoom-overlay">Haz clic sobre la terminal para pantalla completa</div>
+                    <div className="hover-zoom-overlay">Haz clic para expandir terminal (Fullscreen)</div>
                   </div>
                   
                   <div className="photo-caption-box">
@@ -376,24 +211,24 @@ export default function App() {
             ) : (
               <div className="empty-gallery-state">
                 <div className="empty-icon">📂</div>
-                <p className="empty-text">Hito enfocado en análisis procedimental conceptual.</p>
-                <span className="empty-subtext">No requiere registro gráfico de verificación.</span>
+                <p className="empty-text">Módulo enfocado en análisis procedimental conceptual.</p>
+                <span className="empty-subtext">No requiere registro gráfico complementario.</span>
               </div>
             )}
           </div>
         </section>
       </div>
 
-      {/* MODAL INTERACTIVO DE PANTALLA COMPLETA */}
+      {/* VISOR FLOTANTE GIGANTE (LIGHTBOX) */}
       {zoomImg && zoomImg.src && (
         <div className="lightbox-overlay" onClick={() => setZoomImg(null)}>
           <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
             <div className="lightbox-top-bar">
-              <span className="lightbox-title">Revisión Remota CLI: {zoomImg.file}</span>
+              <span className="lightbox-title">Revisión CLI Remota: {zoomImg.file}</span>
               <button className="close-btn" onClick={() => setZoomImg(null)}>✖ Cerrar</button>
             </div>
             <div className="lightbox-image-container">
-              <img src={zoomImg.src} alt="Evidencia Ampliada" className="lightbox-scaled-image" />
+              <img src={zoomImg.src} alt="Evidencia" className="lightbox-scaled-image" />
             </div>
             <div className="lightbox-footer">
               <p>{zoomImg.desc}</p>
@@ -402,7 +237,7 @@ export default function App() {
         </div>
       )}
 
-      {/* PIE DE PÁGINA INSTITUCIONAL */}
+      {/* PIE DE PÁGINA INSTITUCIONAL CORREGIDO */}
       <footer className="tech-footer">
         <p>© 2026 INACAP Valparaíso · Ingeniería en Informática · Administración de Sistemas Linux.</p>
       </footer>
